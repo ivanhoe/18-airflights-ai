@@ -23,7 +23,8 @@ defmodule AirflightsWeb.Api.FlightController do
   def cheapest(conn, params) do
     origin = Map.get(params, "origin", "MEX")
     destination = Map.get(params, "destination", "VIE")
-    date_string = Map.get(params, "date")
+    # Accept both "date" and "departure_date" for compatibility
+    date_string = Map.get(params, "date") || Map.get(params, "departure_date")
 
     with {:ok, date} <- parse_date(date_string),
          {:ok, offer} <- Flights.search_cheapest(origin, destination, date) do
@@ -65,7 +66,8 @@ defmodule AirflightsWeb.Api.FlightController do
   def search(conn, params) do
     origin = Map.get(params, "origin", "MEX")
     destination = Map.get(params, "destination", "VIE")
-    date_string = Map.get(params, "date")
+    # Accept both "date" and "departure_date" for compatibility
+    date_string = Map.get(params, "date") || Map.get(params, "departure_date")
     adults = Map.get(params, "adults", 1)
 
     with {:ok, date} <- parse_date(date_string),
@@ -108,7 +110,9 @@ defmodule AirflightsWeb.Api.FlightController do
       arrival_at: offer.arrival_at && DateTime.to_iso8601(offer.arrival_at),
       duration: offer.duration,
       stops: offer.stops,
-      airline_code: offer.airline_code
+      airline: offer.airline,
+      airline_code: offer.airline_code,
+      segments: offer.segments || []
     }
   end
 
