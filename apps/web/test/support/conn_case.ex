@@ -28,6 +28,7 @@ defmodule AirflightsWeb.ConnCase do
       import Plug.Conn
       import Phoenix.ConnTest
       import AirflightsWeb.ConnCase
+      import Phoenix.Component
     end
   end
 

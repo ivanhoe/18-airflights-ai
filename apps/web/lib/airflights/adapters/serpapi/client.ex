@@ -25,15 +25,18 @@ defmodule Airflights.Adapters.SerpApi.Client do
       departure_id: origin,
       arrival_id: destination,
       outbound_date: Date.to_iso8601(date),
-      currency: "USD",
+      currency: "MXN",
       hl: "en",
       # One-way flight
       type: "2",
       api_key: api_key
     ]
 
+    IO.inspect(params, label: ">>> SERPAPI REQUEST PARAMS")
+
     case Req.get(@base_url, params: params) do
       {:ok, %Req.Response{status: status, body: body}} when status in 200..299 ->
+        IO.inspect(body, label: ">>> SERPAPI RESPONSE BODY")
         {:ok, body}
 
       {:ok, %Req.Response{status: status, body: body}} ->

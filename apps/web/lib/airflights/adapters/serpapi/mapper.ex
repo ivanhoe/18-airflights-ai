@@ -37,7 +37,7 @@ defmodule Airflights.Adapters.SerpApi.Mapper do
 
         Offer.new(%{
           price: extract_price(flight_group),
-          currency: "USD",
+          currency: "MXN",
           departure_at: parse_departure(first_flight),
           arrival_at: parse_arrival(last_flight),
           duration: format_duration(Map.get(flight_group, "total_duration")),
