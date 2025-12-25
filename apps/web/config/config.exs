@@ -13,6 +13,8 @@ config :airflights,
   # Dependency injection: use resilient provider with fallback chain
   flight_provider: Airflights.Adapters.ResilientProvider
 
+config :airflights, AirflightsWeb.Gettext, default_locale: "es"
+
 # Resilient provider configuration
 config :airflights, Airflights.Adapters.ResilientProvider,
   providers: [

@@ -79,7 +79,7 @@ function parseSegments(segmentsJson: string | null): any[] {
             : 'bg-white/10 text-violet-300 hover:bg-white/20'
         ]"
       >
-        All ({{ savedFlights.length }})
+        {{ $t('saved.filters.all', { count: savedFlights.length }) }}
       </button>
       <button
         @click="showFavoritesOnly = true; loadFlights()"
@@ -90,13 +90,13 @@ function parseSegments(segmentsJson: string | null): any[] {
             : 'bg-white/10 text-violet-300 hover:bg-white/20'
         ]"
       >
-        ⭐ Favorites
+        ⭐ {{ $t('saved.filters.favorites') }}
       </button>
     </div>
 
     <!-- Loading -->
     <div v-if="loading" class="text-center py-8 text-violet-300">
-      Loading saved flights...
+      {{ $t('saved.loading') }}
     </div>
 
     <!-- Error -->
@@ -108,10 +108,10 @@ function parseSegments(segmentsJson: string | null): any[] {
     <div v-else-if="displayedFlights.length === 0" class="text-center py-8">
       <div class="text-4xl mb-2">✈️</div>
       <div class="text-violet-300">
-        {{ showFavoritesOnly ? 'No favorite flights yet' : 'No saved flights yet' }}
+        {{ showFavoritesOnly ? $t('saved.empty.favorites') : $t('saved.empty.saved') }}
       </div>
       <div class="text-sm text-violet-400 mt-1">
-        Search for flights to save them here
+        {{ $t('saved.empty.prompt') }}
       </div>
     </div>
 
@@ -161,12 +161,12 @@ function parseSegments(segmentsJson: string | null): any[] {
         <div class="flex gap-4 text-sm text-violet-300">
           <span v-if="flight.airline">{{ flight.airline }}</span>
           <span v-if="flight.duration">{{ flight.duration.replace('PT', '').replace('H', 'h ').replace('M', 'm') }}</span>
-          <span>{{ flight.stops === 0 ? 'Direct' : `${flight.stops} stop${flight.stops > 1 ? 's' : ''}` }}</span>
+          <span>{{ flight.stops === 0 ? $t('results.direct') : $t('results.stop_count', { count: flight.stops }, flight.stops) }}</span>
         </div>
 
         <!-- Searched timestamp -->
         <div class="text-xs text-violet-400 mt-2">
-          Saved {{ new Date(flight.searched_at).toLocaleDateString() }}
+          {{ $t('saved.saved_at', { date: new Date(flight.searched_at).toLocaleDateString() }) }}
         </div>
       </div>
     </div>

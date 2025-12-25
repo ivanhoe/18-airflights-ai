@@ -102,10 +102,10 @@ defmodule AirflightsWeb.FlightSearchLive do
         <!-- Header -->
         <div class="text-center mb-12">
           <h1 class="text-5xl font-bold text-white mb-4">
-            ✈️ Flight Tracker
+            ✈️ <%= gettext("Flight Tracker") %>
           </h1>
           <p class="text-xl text-purple-200">
-            Find the cheapest flights from Mexico City to Vienna
+            <%= gettext("Find the cheapest flights from Mexico City to Vienna") %>
           </p>
         </div>
 
@@ -116,12 +116,12 @@ defmodule AirflightsWeb.FlightSearchLive do
             <div class="flex items-center justify-center gap-6 mb-8">
               <div class="text-center">
                 <div class="text-4xl font-bold text-white">{@origin}</div>
-                <div class="text-purple-300 text-sm">Mexico City</div>
+                <div class="text-purple-300 text-sm"><%= gettext("Mexico City") %></div>
               </div>
               <div class="text-purple-400 text-3xl">→</div>
               <div class="text-center">
                 <div class="text-4xl font-bold text-white">{@destination}</div>
-                <div class="text-purple-300 text-sm">Vienna</div>
+                <div class="text-purple-300 text-sm"><%= gettext("Vienna") %></div>
               </div>
             </div>
 
@@ -129,7 +129,7 @@ defmodule AirflightsWeb.FlightSearchLive do
             <form phx-submit="search" class="space-y-6">
               <div>
                 <label class="block text-purple-200 text-sm font-medium mb-2">
-                  Departure Date
+                  <%= gettext("Departure Date") %>
                 </label>
                 <input
                   type="date"
@@ -151,10 +151,10 @@ defmodule AirflightsWeb.FlightSearchLive do
                       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" fill="none"/>
                       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
                     </svg>
-                    Searching...
+                    <%= gettext("Searching...") %>
                   </span>
                 <% else %>
-                  🔍 Find Cheapest Flight
+                  🔍 <%= gettext("Find Cheapest Flight") %>
                 <% end %>
               </button>
             </form>
@@ -171,7 +171,7 @@ defmodule AirflightsWeb.FlightSearchLive do
           <%= if @offer do %>
             <div class="mt-8 bg-white/10 backdrop-blur-lg rounded-3xl p-8 shadow-2xl border border-white/20 animate-fade-in">
               <h2 class="text-2xl font-bold text-white mb-6 text-center">
-                🎉 Cheapest Flight Found!
+                🎉 <%= gettext("Cheapest Flight Found!") %>
               </h2>
 
               <div class="bg-gradient-to-r from-green-500/20 to-emerald-500/20 rounded-2xl p-6 border border-green-500/30">
@@ -186,21 +186,21 @@ defmodule AirflightsWeb.FlightSearchLive do
                 <!-- Flight Details -->
                 <div class="grid grid-cols-2 gap-4 text-white">
                   <div class="bg-white/5 rounded-xl p-4">
-                    <div class="text-purple-300 text-sm">Airline</div>
+                    <div class="text-purple-300 text-sm"><%= gettext("Airline") %></div>
                     <div class="text-xl font-semibold">{@offer.airline_code || "N/A"}</div>
                   </div>
                   <div class="bg-white/5 rounded-xl p-4">
-                    <div class="text-purple-300 text-sm">Stops</div>
+                    <div class="text-purple-300 text-sm"><%= gettext("Stops") %></div>
                     <div class="text-xl font-semibold">
-                      <%= if @offer.stops == 0, do: "Direct", else: "#{@offer.stops} stop(s)" %>
+                      <%= if @offer.stops == 0, do: gettext("Direct"), else: "#{@offer.stops} #{gettext("stop(s)")}" %>
                     </div>
                   </div>
                   <div class="bg-white/5 rounded-xl p-4">
-                    <div class="text-purple-300 text-sm">Duration</div>
+                    <div class="text-purple-300 text-sm"><%= gettext("Duration") %></div>
                     <div class="text-xl font-semibold">{format_duration(@offer.duration)}</div>
                   </div>
                   <div class="bg-white/5 rounded-xl p-4">
-                    <div class="text-purple-300 text-sm">Departure</div>
+                    <div class="text-purple-300 text-sm"><%= gettext("Departure") %></div>
                     <div class="text-xl font-semibold">{format_datetime(@offer.departure_at)}</div>
                   </div>
                 </div>
@@ -208,7 +208,7 @@ defmodule AirflightsWeb.FlightSearchLive do
                 <!-- Segments Breakdown -->
                 <%= if @offer.segments && length(@offer.segments) > 0 do %>
                   <div class="mt-8 pt-6 border-t border-white/10 space-y-6">
-                    <h3 class="text-white font-semibold text-lg border-b border-white/10 pb-2">Flight Segments</h3>
+                    <h3 class="text-white font-semibold text-lg border-b border-white/10 pb-2"><%= gettext("Flight Segments") %></h3>
                     <%= for {segment, index} <- Enum.with_index(@offer.segments) do %>
                       <div class="bg-black/20 rounded-xl p-4 text-white">
                         <div class="flex justify-between items-start mb-2">
@@ -229,14 +229,14 @@ defmodule AirflightsWeb.FlightSearchLive do
                              <img src={segment["airline_logo"]} class="h-6 w-6 object-contain bg-white rounded-full" alt="logo" />
                              <span><%= segment["airline"] %></span>
                            </div>
-                           <span>Flight <%= segment["flight_number"] %></span>
+                           <span><%= gettext("Flight") %> <%= segment["flight_number"] %></span>
                         </div>
                       </div>
 
                       <%= if index < length(@offer.segments) - 1 do %>
                         <div class="flex items-center justify-center gap-2 text-purple-300 text-xs py-2">
                           <div class="h-px w-12 bg-purple-500/30"></div>
-                          <span>Layover at <%= segment["arrival_airport"]["id"] %></span>
+                          <span><%= gettext("Layover at") %> <%= segment["arrival_airport"]["id"] %></span>
                           <div class="h-px w-12 bg-purple-500/30"></div>
                         </div>
                       <% end %>
@@ -250,7 +250,7 @@ defmodule AirflightsWeb.FlightSearchLive do
 
         <!-- Footer -->
         <div class="text-center mt-12 text-purple-300 text-sm">
-          Powered by SerpApi (Google Flights) • Built with Elixir & Phoenix LiveView
+          <%= gettext("Powered by SerpApi (Google Flights) • Built with Elixir & Phoenix LiveView") %>
         </div>
       </div>
     </div>

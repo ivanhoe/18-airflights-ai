@@ -103,7 +103,7 @@ async function handleToggleFavorite(id: number) {
       v-if="!isOnline" 
       class="bg-amber-500/20 border-b border-amber-500/30 px-4 py-2 text-center text-amber-300 text-sm"
     >
-      📴 You're offline — viewing saved flights
+      {{ $t('offline_banner') }}
     </div>
 
     <!-- Navigation Tabs -->
@@ -117,7 +117,7 @@ async function handleToggleFavorite(id: number) {
             : 'text-violet-400 hover:text-violet-300'
         ]"
       >
-        🔍 Search
+        🔍 {{ $t('tabs.search') }}
       </button>
       <button
         @click="activeTab = 'saved'"
@@ -128,7 +128,7 @@ async function handleToggleFavorite(id: number) {
             : 'text-violet-400 hover:text-violet-300'
         ]"
       >
-        💾 Saved Flights
+        💾 {{ $t('tabs.saved') }}
       </button>
     </nav>
 
@@ -136,8 +136,8 @@ async function handleToggleFavorite(id: number) {
       <!-- Search Tab -->
       <div v-if="activeTab === 'search'">
         <AppHeader 
-          title="✈️ Flight Tracker"
-          subtitle="Find the cheapest flights from Mexico City to Vienna"
+          :title="$t('search.header.title')"
+          :subtitle="$t('search.header.subtitle')"
         />
 
         <main class="card">
@@ -170,22 +170,22 @@ async function handleToggleFavorite(id: number) {
           v-if="lastSavedId" 
           class="mt-4 text-center text-sm text-green-400 animate-fade-in"
         >
-          ✓ Saved for offline access
+          ✓ {{ $t('search.saved_confirmation') }}
         </div>
       </div>
 
       <!-- Saved Flights Tab -->
       <div v-else>
         <AppHeader 
-          title="💾 Saved Flights"
-          subtitle="Your previously searched flights"
+          :title="'💾 ' + $t('tabs.saved')"
+          :subtitle="$t('search.saved_flights')"
         />
         <SavedFlights />
       </div>
     </div>
 
     <footer class="text-center py-6 text-sm text-violet-300 mt-auto">
-      Powered by SerpApi (Google Flights) • Built with Tauri + Vue
+      {{ $t('footer') }}
     </footer>
   </div>
 </template>

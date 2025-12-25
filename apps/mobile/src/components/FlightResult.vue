@@ -53,14 +53,14 @@ const hasSegments = computed(() => props.offer.segments && props.offer.segments.
 
 <template>
   <section class="card mt-6 animate-fade-in">
-    <h2 class="text-center text-xl font-bold mb-4">🎉 Cheapest Flight Found!</h2>
+    <h2 class="text-center text-xl font-bold mb-4">🎉 {{ $t('results.title') }}</h2>
 
     <!-- Price Header -->
     <div class="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-2xl p-4 border border-green-500/30 mb-4">
       <div class="flex items-center justify-between">
         <div>
           <div class="text-3xl font-bold text-green-400">{{ formattedPrice }}</div>
-          <div class="text-sm text-green-300/80">{{ offer.currency }} total</div>
+          <div class="text-sm text-green-300/80">{{ offer.currency }} {{ $t('results.total') }}</div>
         </div>
         
         <!-- Favorite Button -->
@@ -77,7 +77,7 @@ const hasSegments = computed(() => props.offer.segments && props.offer.segments.
         <div class="text-right">
           <div class="text-lg font-semibold">{{ formatDuration(offer.duration) }}</div>
           <div class="text-sm text-violet-300">
-            {{ offer.stops === 0 ? 'Direct' : `${offer.stops} stop${offer.stops > 1 ? 's' : ''}` }}
+            {{ offer.stops === 0 ? $t('results.direct') : $t('results.stop_count', { count: offer.stops }, offer.stops) }}
           </div>
         </div>
       </div>
@@ -138,7 +138,7 @@ const hasSegments = computed(() => props.offer.segments && props.offer.segments.
               {{ segment.travel_class }}
             </span>
             <span v-if="segment.legroom" class="text-xs bg-white/10 px-2 py-1 rounded">
-              Legroom: {{ segment.legroom }}
+              {{ $t('results.legroom', { value: segment.legroom }) }}
             </span>
           </div>
         </div>
@@ -146,27 +146,27 @@ const hasSegments = computed(() => props.offer.segments && props.offer.segments.
       
       <!-- Missing Details Fallback -->
       <div v-else class="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl text-center">
-        <p class="text-amber-300 font-medium">Flight details unavailable</p>
-        <p class="text-xs text-amber-200/70 mt-1">This flight has stops but segment details were not returned.</p>
+        <p class="text-amber-300 font-medium">{{ $t('results.details_unavailable') }}</p>
+        <p class="text-xs text-amber-200/70 mt-1">{{ $t('results.details_unavailable_desc') }}</p>
       </div>
     </div>
 
     <!-- Direct Flight / Simple View -->
     <div v-else class="grid grid-cols-2 gap-3">
       <div class="bg-white/5 p-3 rounded-xl">
-        <span class="block text-sm text-violet-300">Airline</span>
+        <span class="block text-sm text-violet-300">{{ $t('results.airline') }}</span>
         <span class="text-lg font-semibold">{{ offer.airline || offer.airline_code || 'N/A' }}</span>
       </div>
       <div class="bg-white/5 p-3 rounded-xl">
-        <span class="block text-sm text-violet-300">Stops</span>
-        <span class="text-lg font-semibold">{{ offer.stops === 0 ? 'Direct' : `${offer.stops} stop(s)` }}</span>
+        <span class="block text-sm text-violet-300">{{ $t('results.stops') }}</span>
+        <span class="text-lg font-semibold">{{ offer.stops === 0 ? $t('results.direct') : $t('results.stop_count', { count: offer.stops }, offer.stops) }}</span>
       </div>
       <div class="bg-white/5 p-3 rounded-xl">
-        <span class="block text-sm text-violet-300">Duration</span>
+        <span class="block text-sm text-violet-300">{{ $t('results.duration') }}</span>
         <span class="text-lg font-semibold">{{ formatDuration(offer.duration) }}</span>
       </div>
       <div class="bg-white/5 p-3 rounded-xl">
-        <span class="block text-sm text-violet-300">Departure</span>
+        <span class="block text-sm text-violet-300">{{ $t('results.departure') }}</span>
         <span class="text-lg font-semibold">{{ formatTime(offer.departure_at) }}</span>
       </div>
     </div>

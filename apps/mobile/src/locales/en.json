@@ -1,0 +1,53 @@
+{
+    "search": {
+        "title": "Flight Search",
+        "header": {
+            "title": "✈️ Flight Tracker",
+            "subtitle": "Find the cheapest flights from Mexico City to Vienna"
+        },
+        "origin_label": "From",
+        "destination_label": "To",
+        "date_label": "Departure Date",
+        "button": "Find Cheapest Flight",
+        "loading": "Searching...",
+        "error_api": "API Error",
+        "saved_flights": "Favorites",
+        "saved_confirmation": "Saved for offline access"
+    },
+    "tabs": {
+        "search": "Search",
+        "saved": "Saved Flights"
+    },
+    "offline_banner": "📴 You're offline — viewing saved flights",
+    "footer": "Powered by SerpApi (Google Flights) • Built with Tauri + Vue",
+    "results": {
+        "title": "Cheapest Flight",
+        "price": "Price",
+        "airline": "Airline",
+        "stops": "Stops",
+        "duration": "Duration",
+        "direct": "Direct",
+        "stop_count": "{count} stop | {count} stops",
+        "segments": "Flight Segments",
+        "layover": "Layover at {airport}",
+        "flight_number": "Flight {number}",
+        "details_unavailable": "Flight details unavailable",
+        "details_unavailable_desc": "This flight has stops but segment details were not returned.",
+        "total": "total",
+        "legroom": "Legroom: {value}"
+    },
+    "saved": {
+        "filters": {
+            "all": "All ({count})",
+            "favorites": "Favorites"
+        },
+        "loading": "Loading saved flights...",
+        "error": "Failed to load saved flights",
+        "empty": {
+            "saved": "No saved flights yet",
+            "favorites": "No favorite flights yet",
+            "prompt": "Search for flights to save them here"
+        },
+        "saved_at": "Saved {date}"
+    }
+}

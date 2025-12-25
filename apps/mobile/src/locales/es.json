@@ -1,0 +1,53 @@
+{
+    "search": {
+        "title": "Buscar Vuelos",
+        "header": {
+            "title": "✈️ Rastreador de Vuelos",
+            "subtitle": "Encuentra vuelos baratos de CDMX a Viena"
+        },
+        "origin_label": "Origen",
+        "destination_label": "Destino",
+        "date_label": "Fecha de Salida",
+        "button": "Buscar Vuelo",
+        "loading": "Buscando...",
+        "error_api": "Error de API",
+        "saved_flights": "Favoritos",
+        "saved_confirmation": "Guardado para acceso offline"
+    },
+    "tabs": {
+        "search": "Buscar",
+        "saved": "Guardados"
+    },
+    "offline_banner": "📴 Estás offline — viendo vuelos guardados",
+    "footer": "Desarrollado por SerpApi (Google Flights) • Creado con Tauri + Vue",
+    "results": {
+        "title": "Vuelo Más Barato",
+        "price": "Precio",
+        "airline": "Aerolínea",
+        "stops": "Escalas",
+        "duration": "Duración",
+        "direct": "Directo",
+        "stop_count": "{count} escala | {count} escalas",
+        "segments": "Tramos del Vuelo",
+        "layover": "Escala en {airport}",
+        "flight_number": "Vuelo {number}",
+        "details_unavailable": "Detalles no disponibles",
+        "details_unavailable_desc": "Este vuelo tiene escalas pero no hay detalles disponibles.",
+        "total": "total",
+        "legroom": "Espacio: {value}"
+    },
+    "saved": {
+        "filters": {
+            "all": "Todos ({count})",
+            "favorites": "Favoritos"
+        },
+        "loading": "Cargando vuelos guardados...",
+        "error": "Error al cargar vuelos",
+        "empty": {
+            "saved": "No hay vuelos guardados",
+            "favorites": "No hay favoritos aún",
+            "prompt": "Busca vuelos para guardarlos aquí"
+        },
+        "saved_at": "Guardado el {date}"
+    }
+}
