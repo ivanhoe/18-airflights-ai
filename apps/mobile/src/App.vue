@@ -45,8 +45,8 @@ async function handleSearch() {
 </script>
 
 <template>
-  <div class="max-w-lg mx-auto min-h-screen flex flex-col safe-area-inset">
-    <div class="flex-1 flex flex-col justify-center">
+  <div class="max-w-lg mx-auto min-h-dvh flex flex-col safe-area-inset">
+    <div class="flex-1">
       <AppHeader 
         title="✈️ Flight Tracker"
         subtitle="Find the cheapest flights from Mexico City to Vienna"
@@ -72,8 +72,8 @@ async function handleSearch() {
       <FlightResult v-if="offer" :offer="offer" />
     </div>
 
-    <footer class="text-center py-4 text-sm text-violet-300">
-      Powered by Amadeus API • Built with Tauri + Vue
+    <footer class="text-center py-6 text-sm text-violet-300 mt-auto">
+      Powered by SerpApi (Google Flights) • Built with Tauri + Vue
     </footer>
   </div>
 </template>

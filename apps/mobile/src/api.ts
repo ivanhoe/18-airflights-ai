@@ -1,6 +1,26 @@
 // API service to communicate with Phoenix backend
 const API_BASE_URL = 'http://localhost:4000/api'
 
+export interface FlightSegment {
+    airline: string
+    airline_logo?: string
+    flight_number: string
+    airplane?: string
+    departure_airport: {
+        id: string
+        name: string
+        time: string
+    }
+    arrival_airport: {
+        id: string
+        name: string
+        time: string
+    }
+    duration: number
+    travel_class?: string
+    legroom?: string
+}
+
 export interface FlightOffer {
     price: number
     currency: string
@@ -8,7 +28,9 @@ export interface FlightOffer {
     arrival_at: string | null
     duration: string | null
     stops: number
+    airline: string | null
     airline_code: string | null
+    segments: FlightSegment[]
 }
 
 export interface ApiResponse<T> {
