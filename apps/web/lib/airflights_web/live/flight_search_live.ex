@@ -113,7 +113,14 @@ defmodule AirflightsWeb.FlightSearchLive do
           error={@error}
         />
 
-        <%= if @offer do %>
+        <%= if @loading do %>
+          <div class="flex flex-col items-center justify-center py-12 space-y-4">
+            <div class="animate-spin rounded-full h-16 w-16 border-4 border-purple-500 border-t-transparent"></div>
+            <p class="text-purple-200 text-lg animate-pulse"><%= gettext("Searching for the best flights...") %></p>
+          </div>
+        <% end %>
+
+        <%= if @offer && !@loading do %>
           <.flight_card offer={@offer} />
         <% end %>
 
