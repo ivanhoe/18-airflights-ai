@@ -151,7 +151,7 @@ function formatDateTime(dateStr) {
 
         <!-- Footer -->
         <div class="text-center mt-12 text-purple-300 text-sm">
-          Powered by Amadeus API • Built with Elixir, Phoenix LiveView & Vue
+          Powered by SerpApi (Google Flights) • Built with Elixir, Phoenix LiveView & Vue
         </div>
       </div>
     </div>

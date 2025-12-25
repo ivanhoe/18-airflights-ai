@@ -58,6 +58,6 @@ defmodule Airflights.Flights do
 
   # Inject provider via configuration (Dependency Injection)
   defp provider do
-    Application.get_env(:airflights, :flight_provider, Airflights.Adapters.Amadeus.FlightProvider)
+    Application.get_env(:airflights, :flight_provider, Airflights.Adapters.SerpApi.FlightProvider)
   end
 end

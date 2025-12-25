@@ -3,7 +3,7 @@ defmodule Airflights.Adapters.ResilientProvider do
   Resilient flight provider that chains multiple providers with fallback.
 
   If the primary provider fails, automatically tries the next one in the chain.
-  This ensures high availability - if Amadeus is down, Skyscanner takes over.
+  This ensures high availability with graceful degradation.
 
   ## Configuration
 
@@ -11,8 +11,7 @@ defmodule Airflights.Adapters.ResilientProvider do
 
       config :airflights, Airflights.Adapters.ResilientProvider,
         providers: [
-          Airflights.Adapters.Amadeus.FlightProvider,
-          Airflights.Adapters.Skyscanner.FlightProvider
+          Airflights.Adapters.SerpApi.FlightProvider
         ]
   """
 
@@ -21,7 +20,6 @@ defmodule Airflights.Adapters.ResilientProvider do
   require Logger
 
   @default_providers [
-    Airflights.Adapters.Amadeus.FlightProvider,
     Airflights.Adapters.SerpApi.FlightProvider
   ]
 

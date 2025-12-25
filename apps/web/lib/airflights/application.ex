@@ -12,8 +12,6 @@ defmodule Airflights.Application do
       Airflights.Repo,
       {DNSCluster, query: Application.get_env(:airflights, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Airflights.PubSub},
-      # Amadeus OAuth2 token manager
-      Airflights.Adapters.Amadeus.Auth,
       # Start to serve requests, typically the last entry
       AirflightsWeb.Endpoint
     ]

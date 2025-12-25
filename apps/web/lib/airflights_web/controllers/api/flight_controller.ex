@@ -118,7 +118,7 @@ defmodule AirflightsWeb.Api.FlightController do
 
   defp format_error({:api_error, status, body}) do
     message = get_in(body, ["error_description"]) || "API error"
-    "Amadeus API error (#{status}): #{message}"
+    "API error (#{status}): #{message}"
   end
 
   defp format_error({:auth_error, _status, body}) do
