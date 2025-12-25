@@ -1,0 +1,38 @@
+# Dependencies
+node_modules/
+deps/
+_build/
+
+# Build outputs
+priv/static/assets/
+priv/vue/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Elixir
+*.beam
+*.ez
+.elixir_ls/
+
+# Tauri
+apps/mobile/src-tauri/target/
+apps/mobile/src-tauri/gen/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Test
+/cover/

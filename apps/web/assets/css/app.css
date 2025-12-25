@@ -1,0 +1,11 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Add variants based on LiveView classes */
+.phx-click-loading:not(:active),
+.phx-submit-loading:not(:active),
+.phx-change-loading:not(:active) {
+  opacity: 0.5;
+  cursor: wait;
+}
