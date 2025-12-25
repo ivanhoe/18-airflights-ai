@@ -6,24 +6,8 @@ defineProps<{
 </script>
 
 <template>
-  <header class="header">
-    <h1>{{ title }}</h1>
-    <p>{{ subtitle }}</p>
+  <header class="text-center mb-8">
+    <h1 class="text-3xl font-bold mb-2">{{ title }}</h1>
+    <p class="text-violet-300">{{ subtitle }}</p>
   </header>
 </template>
-
-<style scoped>
-.header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.header h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-.header p {
-  color: var(--text-secondary);
-}
-</style>

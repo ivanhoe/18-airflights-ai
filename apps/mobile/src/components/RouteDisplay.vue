@@ -8,44 +8,15 @@ defineProps<{
 </script>
 
 <template>
-  <div class="route">
-    <div class="airport">
-      <div class="code">{{ origin }}</div>
-      <div class="city">{{ originCity }}</div>
+  <div class="flex items-center justify-center gap-6 mb-6">
+    <div class="text-center">
+      <div class="text-3xl font-bold">{{ origin }}</div>
+      <div class="text-sm text-violet-300">{{ originCity }}</div>
     </div>
-    <div class="arrow">→</div>
-    <div class="airport">
-      <div class="code">{{ destination }}</div>
-      <div class="city">{{ destinationCity }}</div>
+    <div class="text-2xl text-violet-300">→</div>
+    <div class="text-center">
+      <div class="text-3xl font-bold">{{ destination }}</div>
+      <div class="text-sm text-violet-300">{{ destinationCity }}</div>
     </div>
   </div>
 </template>
-
-<style scoped>
-.route {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.airport {
-  text-align: center;
-}
-
-.code {
-  font-size: 2rem;
-  font-weight: bold;
-}
-
-.city {
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-.arrow {
-  font-size: 1.5rem;
-  color: var(--text-secondary);
-}
-</style>

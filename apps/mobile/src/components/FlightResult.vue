@@ -28,103 +28,35 @@ function formatDateTime(dateStr: string | null): string {
 </script>
 
 <template>
-  <section class="results-card">
-    <h2>🎉 Cheapest Flight Found!</h2>
+  <section class="card mt-6 animate-fade-in">
+    <h2 class="text-center text-xl font-bold mb-6">🎉 Cheapest Flight Found!</h2>
 
-    <div class="offer">
+    <div class="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-2xl p-6 border border-green-500/30">
       <!-- Price -->
-      <div class="price">
-        <div class="amount">{{ formattedPrice }}</div>
-        <div class="currency">{{ offer.currency }}</div>
+      <div class="text-center mb-6">
+        <div class="text-4xl font-bold text-green-500">{{ formattedPrice }}</div>
+        <div class="text-sm text-green-300">{{ offer.currency }}</div>
       </div>
 
       <!-- Flight Details -->
-      <div class="details">
-        <div class="detail">
-          <span class="label">Airline</span>
-          <span class="value">{{ offer.airline_code || 'N/A' }}</span>
+      <div class="grid grid-cols-2 gap-3">
+        <div class="bg-white/5 p-3 rounded-xl">
+          <span class="block text-sm text-violet-300">Airline</span>
+          <span class="text-lg font-semibold">{{ offer.airline_code || 'N/A' }}</span>
         </div>
-        <div class="detail">
-          <span class="label">Stops</span>
-          <span class="value">{{ offer.stops === 0 ? 'Direct' : `${offer.stops} stop(s)` }}</span>
+        <div class="bg-white/5 p-3 rounded-xl">
+          <span class="block text-sm text-violet-300">Stops</span>
+          <span class="text-lg font-semibold">{{ offer.stops === 0 ? 'Direct' : `${offer.stops} stop(s)` }}</span>
         </div>
-        <div class="detail">
-          <span class="label">Duration</span>
-          <span class="value">{{ formatDuration(offer.duration) }}</span>
+        <div class="bg-white/5 p-3 rounded-xl">
+          <span class="block text-sm text-violet-300">Duration</span>
+          <span class="text-lg font-semibold">{{ formatDuration(offer.duration) }}</span>
         </div>
-        <div class="detail">
-          <span class="label">Departure</span>
-          <span class="value">{{ formatDateTime(offer.departure_at) }}</span>
+        <div class="bg-white/5 p-3 rounded-xl">
+          <span class="block text-sm text-violet-300">Departure</span>
+          <span class="text-lg font-semibold">{{ formatDateTime(offer.departure_at) }}</span>
         </div>
       </div>
     </div>
   </section>
 </template>
-
-<style scoped>
-.results-card {
-  margin-top: 1.5rem;
-  background: var(--bg-secondary);
-  backdrop-filter: blur(10px);
-  border-radius: 1.5rem;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.results-card h2 {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.offer {
-  background: linear-gradient(135deg, rgba(34, 197, 94, 0.2), rgba(16, 185, 129, 0.2));
-  border-radius: 1rem;
-  padding: 1.5rem;
-  border: 1px solid rgba(34, 197, 94, 0.3);
-}
-
-.price {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-.amount {
-  font-size: 2.5rem;
-  font-weight: bold;
-  color: var(--success);
-}
-
-.currency {
-  font-size: 0.9rem;
-  color: #86efac;
-}
-
-.details {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.75rem;
-}
-
-.detail {
-  background: rgba(255, 255, 255, 0.05);
-  padding: 0.75rem;
-  border-radius: 0.75rem;
-}
-
-.detail .label {
-  display: block;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-.detail .value {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-</style>

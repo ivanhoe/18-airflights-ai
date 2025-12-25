@@ -45,14 +45,14 @@ async function handleSearch() {
 </script>
 
 <template>
-  <div class="app">
-    <div class="content">
+  <div class="max-w-lg mx-auto min-h-screen flex flex-col safe-area-inset">
+    <div class="flex-1 flex flex-col justify-center">
       <AppHeader 
         title="✈️ Flight Tracker"
         subtitle="Find the cheapest flights from Mexico City to Vienna"
       />
 
-      <main class="search-card">
+      <main class="card">
         <RouteDisplay
           :origin="origin"
           origin-city="Mexico City"
@@ -72,82 +72,8 @@ async function handleSearch() {
       <FlightResult v-if="offer" :offer="offer" />
     </div>
 
-    <footer class="footer">
+    <footer class="text-center py-4 text-sm text-violet-300">
       Powered by Amadeus API • Built with Tauri + Vue
     </footer>
   </div>
 </template>
-
-<style>
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-:root {
-  --bg-primary: #0f172a;
-  --bg-secondary: rgba(255, 255, 255, 0.1);
-  --text-primary: #ffffff;
-  --text-secondary: #a78bfa;
-  --accent: linear-gradient(135deg, #9333ea, #ec4899);
-  --success: #22c55e;
-  --error: #ef4444;
-  
-  /* iOS Safe Areas */
-  --safe-area-top: env(safe-area-inset-top, 20px);
-  --safe-area-bottom: env(safe-area-inset-bottom, 20px);
-  --safe-area-left: env(safe-area-inset-left, 0px);
-  --safe-area-right: env(safe-area-inset-right, 0px);
-}
-
-html, body {
-  height: 100%;
-}
-
-body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-  background: linear-gradient(135deg, #0f172a, #581c87, #0f172a);
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  color: var(--text-primary);
-}
-
-#app {
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-}
-
-.app {
-  max-width: 500px;
-  margin: 0 auto;
-  min-height: 100vh;
-  min-height: -webkit-fill-available;
-  display: flex;
-  flex-direction: column;
-  padding: calc(var(--safe-area-top) + 1rem) calc(var(--safe-area-right) + 1rem) calc(var(--safe-area-bottom) + 1rem) calc(var(--safe-area-left) + 1rem);
-}
-
-.content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-.search-card {
-  background: var(--bg-secondary);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: 1.5rem;
-  padding: 1.5rem;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-.footer {
-  text-align: center;
-  padding: 1rem 0;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-</style>
