@@ -83,7 +83,7 @@ defmodule AirflightsWeb.FlightSearchLive do
 
   defp format_error({:api_error, status, body}) do
     message = get_in(body, ["error_description"]) || "API error"
-    "Amadeus API error (#{status}): #{message}"
+    "API error (#{status}): #{message}"
   end
 
   defp format_error({:auth_error, _status, body}) do
@@ -204,6 +204,45 @@ defmodule AirflightsWeb.FlightSearchLive do
                     <div class="text-xl font-semibold">{format_datetime(@offer.departure_at)}</div>
                   </div>
                 </div>
+
+                <!-- Segments Breakdown -->
+                <%= if @offer.segments && length(@offer.segments) > 0 do %>
+                  <div class="mt-8 pt-6 border-t border-white/10 space-y-6">
+                    <h3 class="text-white font-semibold text-lg border-b border-white/10 pb-2">Flight Segments</h3>
+                    <%= for {segment, index} <- Enum.with_index(@offer.segments) do %>
+                      <div class="bg-black/20 rounded-xl p-4 text-white">
+                        <div class="flex justify-between items-start mb-2">
+                          <div>
+                            <span class="font-bold text-lg"><%= segment["departure_airport"]["id"] %></span>
+                            <span class="text-purple-300 text-sm ml-2"><%= format_time(segment["departure_airport"]["time"]) %></span>
+                          </div>
+                          <div class="text-sm text-purple-200">
+                             <%= format_duration(segment["duration"]) %>
+                          </div>
+                          <div class="text-right">
+                             <span class="text-purple-300 text-sm mr-2"><%= format_time(segment["arrival_airport"]["time"]) %></span>
+                             <span class="font-bold text-lg"><%= segment["arrival_airport"]["id"] %></span>
+                          </div>
+                        </div>
+                        <div class="flex justify-between items-center text-sm text-gray-400">
+                           <div class="flex items-center gap-2">
+                             <img src={segment["airline_logo"]} class="h-6 w-6 object-contain bg-white rounded-full" alt="logo" />
+                             <span><%= segment["airline"] %></span>
+                           </div>
+                           <span>Flight <%= segment["flight_number"] %></span>
+                        </div>
+                      </div>
+
+                      <%= if index < length(@offer.segments) - 1 do %>
+                        <div class="flex items-center justify-center gap-2 text-purple-300 text-xs py-2">
+                          <div class="h-px w-12 bg-purple-500/30"></div>
+                          <span>Layover at <%= segment["arrival_airport"]["id"] %></span>
+                          <div class="h-px w-12 bg-purple-500/30"></div>
+                        </div>
+                      <% end %>
+                    <% end %>
+                  </div>
+                <% end %>
               </div>
             </div>
           <% end %>
@@ -211,7 +250,7 @@ defmodule AirflightsWeb.FlightSearchLive do
 
         <!-- Footer -->
         <div class="text-center mt-12 text-purple-300 text-sm">
-          Powered by Amadeus API • Built with Elixir & Phoenix LiveView
+          Powered by SerpApi (Google Flights) • Built with Elixir & Phoenix LiveView
         </div>
       </div>
     </div>
@@ -228,9 +267,23 @@ defmodule AirflightsWeb.FlightSearchLive do
     |> String.replace("M", "m")
   end
 
+  defp format_duration(minutes) when is_integer(minutes) do
+    hours = div(minutes, 60)
+    mins = rem(minutes, 60)
+    "#{hours}h #{mins}m"
+  end
+
   defp format_datetime(nil), do: "N/A"
 
   defp format_datetime(%DateTime{} = dt) do
     Calendar.strftime(dt, "%b %d, %H:%M")
+  end
+
+  defp format_time(time_str) do
+    # Format "2026-02-22 17:50" -> "17:50"
+    case String.split(time_str, " ") do
+      [_, time] -> time
+      _ -> time_str
+    end
   end
 end
