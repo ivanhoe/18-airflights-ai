@@ -4,7 +4,19 @@ import type { FlightOffer } from '../api'
 
 const props = defineProps<{
   offer: FlightOffer
+  savedId?: number | null
+  isFavorite?: boolean
 }>()
+
+const emit = defineEmits<{
+  'toggle-favorite': [id: number]
+}>()
+
+function handleFavoriteClick() {
+  if (props.savedId) {
+    emit('toggle-favorite', props.savedId)
+  }
+}
 
 const formattedPrice = computed(() => {
   if (!props.offer?.price) return null
@@ -50,6 +62,18 @@ const hasSegments = computed(() => props.offer.segments && props.offer.segments.
           <div class="text-3xl font-bold text-green-400">{{ formattedPrice }}</div>
           <div class="text-sm text-green-300/80">{{ offer.currency }} total</div>
         </div>
+        
+        <!-- Favorite Button -->
+        <button 
+          v-if="savedId"
+          @click="handleFavoriteClick"
+          class="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110 active:scale-95"
+          :class="isFavorite ? 'bg-amber-500/30 text-amber-400' : 'bg-white/10 text-white/50 hover:text-amber-400'"
+          :title="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
+        >
+          <span class="text-2xl">{{ isFavorite ? '⭐' : '☆' }}</span>
+        </button>
+
         <div class="text-right">
           <div class="text-lg font-semibold">{{ formatDuration(offer.duration) }}</div>
           <div class="text-sm text-violet-300">
@@ -60,66 +84,74 @@ const hasSegments = computed(() => props.offer.segments && props.offer.segments.
     </div>
 
     <!-- Flight Segments -->
-    <div v-if="hasSegments" class="space-y-3">
-      <div 
-        v-for="(segment, index) in offer.segments" 
-        :key="index"
-        class="bg-white/5 rounded-xl p-4 border border-white/10"
-      >
-        <!-- Airline Header -->
-        <div class="flex items-center gap-3 mb-3">
-          <img 
-            v-if="segment.airline_logo" 
-            :src="segment.airline_logo" 
-            :alt="segment.airline"
-            class="w-8 h-8 rounded"
-          />
-          <div v-else class="w-8 h-8 bg-violet-500/30 rounded flex items-center justify-center text-xs font-bold">
-            {{ segment.flight_number?.split(' ')[0] }}
-          </div>
-          <div>
-            <div class="font-semibold">{{ segment.airline }}</div>
-            <div class="text-xs text-violet-300">{{ segment.flight_number }} · {{ segment.airplane }}</div>
-          </div>
-        </div>
-
-        <!-- Route -->
-        <div class="flex items-center justify-between">
-          <div class="text-center">
-            <div class="text-2xl font-bold">{{ segment.departure_airport?.id }}</div>
-            <div class="text-sm text-violet-300">{{ formatTime(segment.departure_airport?.time) }}</div>
-            <div class="text-xs text-violet-400">{{ formatDate(segment.departure_airport?.time) }}</div>
-          </div>
-          
-          <div class="flex-1 px-4">
-            <div class="relative">
-              <div class="border-t border-dashed border-violet-400/50"></div>
-              <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900 px-2">
-                <span class="text-xs text-violet-300">{{ formatDuration(segment.duration) }}</span>
-              </div>
+    <div v-if="offer.stops > 0" class="space-y-3">
+      <template v-if="hasSegments">
+        <div 
+          v-for="(segment, index) in offer.segments" 
+          :key="index"
+          class="bg-white/5 rounded-xl p-4 border border-white/10"
+        >
+          <!-- Airline Header -->
+          <div class="flex items-center gap-3 mb-3">
+            <img 
+              v-if="segment.airline_logo" 
+              :src="segment.airline_logo" 
+              :alt="segment.airline"
+              class="w-8 h-8 rounded"
+            />
+            <div v-else class="w-8 h-8 bg-violet-500/30 rounded flex items-center justify-center text-xs font-bold">
+              {{ segment.flight_number?.split(' ')[0] }}
+            </div>
+            <div>
+              <div class="font-semibold">{{ segment.airline }}</div>
+              <div class="text-xs text-violet-300">{{ segment.flight_number }} · {{ segment.airplane }}</div>
             </div>
           </div>
-          
-          <div class="text-center">
-            <div class="text-2xl font-bold">{{ segment.arrival_airport?.id }}</div>
-            <div class="text-sm text-violet-300">{{ formatTime(segment.arrival_airport?.time) }}</div>
-            <div class="text-xs text-violet-400">{{ formatDate(segment.arrival_airport?.time) }}</div>
+
+          <!-- Route -->
+          <div class="flex items-center justify-between">
+            <div class="text-center">
+              <div class="text-2xl font-bold">{{ segment.departure_airport?.id }}</div>
+              <div class="text-sm text-violet-300">{{ formatTime(segment.departure_airport?.time) }}</div>
+              <div class="text-xs text-violet-400">{{ formatDate(segment.departure_airport?.time) }}</div>
+            </div>
+            
+            <div class="flex-1 px-4">
+              <div class="relative">
+                <div class="border-t border-dashed border-violet-400/50"></div>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900 px-2">
+                  <span class="text-xs text-violet-300">{{ formatDuration(segment.duration) }}</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="text-center">
+              <div class="text-2xl font-bold">{{ segment.arrival_airport?.id }}</div>
+              <div class="text-sm text-violet-300">{{ formatTime(segment.arrival_airport?.time) }}</div>
+              <div class="text-xs text-violet-400">{{ formatDate(segment.arrival_airport?.time) }}</div>
+            </div>
+          </div>
+
+          <!-- Class & Legroom -->
+          <div class="flex gap-2 mt-3">
+            <span v-if="segment.travel_class" class="text-xs bg-violet-500/20 px-2 py-1 rounded">
+              {{ segment.travel_class }}
+            </span>
+            <span v-if="segment.legroom" class="text-xs bg-white/10 px-2 py-1 rounded">
+              Legroom: {{ segment.legroom }}
+            </span>
           </div>
         </div>
-
-        <!-- Class & Legroom -->
-        <div class="flex gap-2 mt-3">
-          <span v-if="segment.travel_class" class="text-xs bg-violet-500/20 px-2 py-1 rounded">
-            {{ segment.travel_class }}
-          </span>
-          <span v-if="segment.legroom" class="text-xs bg-white/10 px-2 py-1 rounded">
-            Legroom: {{ segment.legroom }}
-          </span>
-        </div>
+      </template>
+      
+      <!-- Missing Details Fallback -->
+      <div v-else class="p-4 bg-amber-500/10 border border-amber-500/20 rounded-xl text-center">
+        <p class="text-amber-300 font-medium">Flight details unavailable</p>
+        <p class="text-xs text-amber-200/70 mt-1">This flight has stops but segment details were not returned.</p>
       </div>
     </div>
 
-    <!-- Fallback: Simple View (no segments) -->
+    <!-- Direct Flight / Simple View -->
     <div v-else class="grid grid-cols-2 gap-3">
       <div class="bg-white/5 p-3 rounded-xl">
         <span class="block text-sm text-violet-300">Airline</span>
