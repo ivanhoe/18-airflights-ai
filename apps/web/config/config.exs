@@ -10,14 +10,24 @@ import Config
 config :airflights,
   ecto_repos: [Airflights.Repo],
   generators: [timestamp_type: :utc_datetime],
-  # Dependency injection: flight provider adapter
-  flight_provider: Airflights.Adapters.Amadeus.FlightProvider
+  # Dependency injection: use resilient provider with fallback chain
+  flight_provider: Airflights.Adapters.ResilientProvider
+
+# Resilient provider configuration - order matters (primary -> fallback)
+config :airflights, Airflights.Adapters.ResilientProvider,
+  providers: [
+    Airflights.Adapters.Amadeus.FlightProvider,
+    Airflights.Adapters.SerpApi.FlightProvider
+  ]
 
 # Amadeus API configuration (override with env vars in runtime.exs)
 config :airflights, :amadeus,
   api_key: nil,
   api_secret: nil,
   base_url: "https://test.api.amadeus.com"
+
+# SerpApi (Google Flights) configuration (override with env vars in runtime.exs)
+config :airflights, :serpapi, api_key: nil
 
 # LiveVue configuration
 config :live_vue,

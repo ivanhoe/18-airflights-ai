@@ -26,6 +26,9 @@ config :airflights, :amadeus,
   api_secret: System.get_env("AMADEUS_API_SECRET"),
   base_url: System.get_env("AMADEUS_BASE_URL") || "https://test.api.amadeus.com"
 
+# SerpApi (Google Flights) configuration from environment variables
+config :airflights, :serpapi, api_key: System.get_env("SERPAPI_API_KEY")
+
 if config_env() == :prod do
   database_url =
     System.get_env("DATABASE_URL") ||
