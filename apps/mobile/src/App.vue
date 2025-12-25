@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { searchCheapestFlight, type FlightOffer } from './api'
+import { initDatabase, saveFlightResult, toggleFavorite } from './db'
 
 // Components
 import AppHeader from './components/AppHeader.vue'
@@ -8,14 +9,24 @@ import RouteDisplay from './components/RouteDisplay.vue'
 import SearchForm from './components/SearchForm.vue'
 import FlightResult from './components/FlightResult.vue'
 import ErrorMessage from './components/ErrorMessage.vue'
+import SavedFlights from './components/SavedFlights.vue'
 
-// State
+// Navigation
+type Tab = 'search' | 'saved'
+const activeTab = ref<Tab>('search')
+
+// Search State
 const origin = ref('MEX')
 const destination = ref('VIE')
 const selectedDate = ref(getDefaultDate())
 const offer = ref<FlightOffer | null>(null)
 const loading = ref(false)
 const error = ref<string | null>(null)
+const lastSavedId = ref<number | null>(null)
+const isFavorite = ref(false)
+
+// Network state
+const isOnline = ref(navigator.onLine)
 
 function getDefaultDate(): string {
   const date = new Date()
@@ -23,10 +34,31 @@ function getDefaultDate(): string {
   return date.toISOString().split('T')[0]
 }
 
+onMounted(async () => {
+  // Initialize database
+  try {
+    await initDatabase()
+  } catch (e) {
+    console.error('Failed to initialize database:', e)
+  }
+  
+  // Listen for network changes
+  window.addEventListener('online', () => isOnline.value = true)
+  window.addEventListener('offline', () => {
+    isOnline.value = false
+    // Auto-switch to saved flights when going offline
+    if (activeTab.value === 'search' && !offer.value) {
+      activeTab.value = 'saved'
+    }
+  })
+})
+
 async function handleSearch() {
   loading.value = true
   error.value = null
   offer.value = null
+  lastSavedId.value = null
+  isFavorite.value = false
 
   const result = await searchCheapestFlight(
     origin.value,
@@ -38,38 +70,118 @@ async function handleSearch() {
 
   if (result.success && result.data) {
     offer.value = result.data
+    
+    // Auto-save to database
+    try {
+      lastSavedId.value = await saveFlightResult(
+        origin.value,
+        destination.value,
+        selectedDate.value,
+        result.data
+      )
+    } catch (e) {
+      console.error('Failed to save flight:', e)
+    }
   } else {
     error.value = result.error || 'No flights found'
+  }
+}
+
+async function handleToggleFavorite(id: number) {
+  try {
+    isFavorite.value = await toggleFavorite(id)
+  } catch (e) {
+    console.error('Failed to toggle favorite:', e)
   }
 }
 </script>
 
 <template>
   <div class="max-w-lg mx-auto min-h-dvh flex flex-col safe-area-inset">
+    <!-- Offline Banner -->
+    <div 
+      v-if="!isOnline" 
+      class="bg-amber-500/20 border-b border-amber-500/30 px-4 py-2 text-center text-amber-300 text-sm"
+    >
+      📴 You're offline — viewing saved flights
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="flex border-b border-white/10 mb-4">
+      <button
+        @click="activeTab = 'search'"
+        :class="[
+          'flex-1 py-3 text-center font-medium transition-colors',
+          activeTab === 'search' 
+            ? 'text-white border-b-2 border-violet-400' 
+            : 'text-violet-400 hover:text-violet-300'
+        ]"
+      >
+        🔍 Search
+      </button>
+      <button
+        @click="activeTab = 'saved'"
+        :class="[
+          'flex-1 py-3 text-center font-medium transition-colors',
+          activeTab === 'saved' 
+            ? 'text-white border-b-2 border-violet-400' 
+            : 'text-violet-400 hover:text-violet-300'
+        ]"
+      >
+        💾 Saved Flights
+      </button>
+    </nav>
+
     <div class="flex-1">
-      <AppHeader 
-        title="✈️ Flight Tracker"
-        subtitle="Find the cheapest flights from Mexico City to Vienna"
-      />
-
-      <main class="card">
-        <RouteDisplay
-          :origin="origin"
-          origin-city="Mexico City"
-          :destination="destination"
-          destination-city="Vienna"
+      <!-- Search Tab -->
+      <div v-if="activeTab === 'search'">
+        <AppHeader 
+          title="✈️ Flight Tracker"
+          subtitle="Find the cheapest flights from Mexico City to Vienna"
         />
 
-        <SearchForm
-          v-model="selectedDate"
-          :loading="loading"
-          @search="handleSearch"
+        <main class="card">
+          <RouteDisplay
+            :origin="origin"
+            origin-city="Mexico City"
+            :destination="destination"
+            destination-city="Vienna"
+          />
+
+          <SearchForm
+            v-model="selectedDate"
+            :loading="loading"
+            @search="handleSearch"
+          />
+
+          <ErrorMessage v-if="error" :message="error" />
+        </main>
+
+        <FlightResult 
+          v-if="offer" 
+          :offer="offer" 
+          :saved-id="lastSavedId"
+          :is-favorite="isFavorite"
+          @toggle-favorite="handleToggleFavorite"
         />
+        
+        <!-- Save confirmation -->
+        <div 
+          v-if="lastSavedId" 
+          class="mt-4 text-center text-sm text-green-400 animate-fade-in"
+        >
+          ✓ Saved for offline access
+        </div>
+      </div>
 
-        <ErrorMessage v-if="error" :message="error" />
-      </main>
-
-      <FlightResult v-if="offer" :offer="offer" />
+      <!-- Saved Flights Tab -->
+      <div v-else>
+        <AppHeader 
+          title="💾 Saved Flights"
+          subtitle="Your previously searched flights"
+        />
+        <SavedFlights />
+      </div>
     </div>
 
     <footer class="text-center py-6 text-sm text-violet-300 mt-auto">
