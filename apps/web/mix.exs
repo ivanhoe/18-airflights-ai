@@ -66,7 +66,8 @@ defmodule Airflights.MixProject do
       # HTTP client for Amadeus API
       {:req, "~> 0.5"},
       # LiveVue for Vue.js integration
-      {:live_vue, "~> 0.7"}
+      {:live_vue, "~> 0.7"},
+      {:tidewave, "~> 0.5", only: :dev}
     ]
   end
 

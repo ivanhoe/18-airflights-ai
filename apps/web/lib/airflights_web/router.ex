@@ -26,5 +26,6 @@ defmodule AirflightsWeb.Router do
 
     post("/flights/cheapest", FlightController, :cheapest)
     post("/flights/search", FlightController, :search)
+    get("/flights/defaults", FlightController, :defaults)
   end
 end

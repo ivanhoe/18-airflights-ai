@@ -91,6 +91,44 @@ defmodule AirflightsWeb.Api.FlightController do
     end
   end
 
+  @doc """
+  Get default suggested searches (Top 5 cheapest MEX -> VIE).
+
+  GET /api/flights/defaults
+  """
+  def defaults(conn, params) do
+    # Default: 30 days from now using "date" from params or calculated default
+    date =
+      case Map.get(params, "date") do
+        nil -> Date.add(Date.utc_today(), 30)
+        d -> Date.from_iso8601!(d)
+      end
+
+    origin = "MEX"
+    destination = "VIE"
+
+    case Flights.search_all(origin, destination, date) do
+      {:ok, offers} ->
+        top_5_cheapest =
+          offers
+          |> Enum.sort_by(& &1.price, :asc)
+          |> Enum.take(5)
+          |> Enum.map(&offer_to_json/1)
+
+        conn
+        |> put_status(:ok)
+        |> json(%{
+          success: true,
+          data: top_5_cheapest
+        })
+
+      {:error, reason} ->
+        conn
+        |> put_status(:internal_server_error)
+        |> json(%{success: false, error: format_error(reason)})
+    end
+  end
+
   # --- Private Helpers ---
 
   defp parse_date(nil), do: {:error, :invalid_date}

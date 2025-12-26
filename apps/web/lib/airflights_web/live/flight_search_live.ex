@@ -21,6 +21,7 @@ defmodule AirflightsWeb.FlightSearchLive do
   def mount(_params, _session, socket) do
     # Default date: 30 days from now
     default_date = Date.add(Date.utc_today(), 30)
+    default_return = Date.add(default_date, 7)
 
     socket =
       socket
@@ -28,6 +29,9 @@ defmodule AirflightsWeb.FlightSearchLive do
       |> assign(:destination, @default_destination)
       |> assign(:date, default_date)
       |> assign(:date_string, Date.to_iso8601(default_date))
+      |> assign(:round_trip, false)
+      |> assign(:return_date, default_return)
+      |> assign(:return_date_string, Date.to_iso8601(default_return))
       |> assign(:offer, nil)
       |> assign(:all_offers, [])
       |> assign(:loading, false)
@@ -37,47 +41,69 @@ defmodule AirflightsWeb.FlightSearchLive do
   end
 
   @impl true
-  def handle_event("search", %{"date" => date_string}, socket) do
+  def handle_event("search", params, socket) do
+    origin = Map.get(params, "origin", socket.assigns.origin)
+    destination = Map.get(params, "destination", socket.assigns.destination)
+    date_string = Map.get(params, "date", socket.assigns.date_string)
+    round_trip = Map.get(params, "round_trip") == "true"
+    return_date_string = Map.get(params, "return_date", socket.assigns.return_date_string)
+
     socket = assign(socket, :loading, true)
 
-    case Date.from_iso8601(date_string) do
-      {:ok, date} ->
-        socket = assign(socket, :date, date)
-        socket = assign(socket, :date_string, date_string)
-        send(self(), :do_search)
-        {:noreply, socket}
+    with {:ok, date} <- Date.from_iso8601(date_string),
+         {:ok, return_date} <- parse_optional_date(return_date_string, round_trip) do
+      socket =
+        socket
+        |> assign(:origin, origin)
+        |> assign(:destination, destination)
+        |> assign(:date, date)
+        |> assign(:date_string, date_string)
+        |> assign(:round_trip, round_trip)
+        |> assign(:return_date, return_date)
+        |> assign(:return_date_string, return_date_string)
 
+      send(self(), :do_search)
+      {:noreply, socket}
+    else
       {:error, _} ->
         socket =
           socket
           |> assign(:loading, false)
-          |> assign(:error, "Invalid date format")
+          |> assign(:error, gettext("Invalid date format"))
 
         {:noreply, socket}
     end
   end
+
+  defp parse_optional_date(_date_string, false), do: {:ok, nil}
+  defp parse_optional_date(date_string, true), do: Date.from_iso8601(date_string)
 
   @impl true
   def handle_info(:do_search, socket) do
     %{origin: origin, destination: destination, date: date} = socket.assigns
 
     socket =
-      case Flights.search_cheapest(origin, destination, date) do
-        {:ok, offer} ->
+      case Flights.search_all(origin, destination, date) do
+        {:ok, offers} when is_list(offers) and length(offers) > 0 ->
+          top_offers = Enum.take(offers, 5)
+          
           socket
-          |> assign(:offer, offer)
+          |> assign(:offer, List.first(top_offers))
+          |> assign(:all_offers, top_offers)
           |> assign(:error, nil)
           |> assign(:loading, false)
 
-        {:error, :no_offers} ->
+        {:ok, []} ->
           socket
           |> assign(:offer, nil)
+          |> assign(:all_offers, [])
           |> assign(:error, "No flights found for this date")
           |> assign(:loading, false)
 
         {:error, reason} ->
           socket
           |> assign(:offer, nil)
+          |> assign(:all_offers, [])
           |> assign(:error, format_error(reason))
           |> assign(:loading, false)
       end
@@ -101,14 +127,16 @@ defmodule AirflightsWeb.FlightSearchLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
-      <div class="container mx-auto px-4 py-12">
+    <div class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex flex-col">
+      <div class="container mx-auto px-4 py-12 flex-1 flex flex-col">
         <.flight_header title={gettext("Flight Tracker")} subtitle={gettext("Find the cheapest flights from Mexico City to Vienna")} />
 
         <.search_form
           origin={@origin}
           destination={@destination}
           date_string={@date_string}
+          round_trip={@round_trip}
+          return_date_string={@return_date_string}
           loading={@loading}
           error={@error}
         />
@@ -120,9 +148,15 @@ defmodule AirflightsWeb.FlightSearchLive do
           </div>
         <% end %>
 
-        <%= if @offer && !@loading do %>
-          <.flight_card offer={@offer} />
+        <%= if @all_offers != [] && !@loading do %>
+          <div class="space-y-4 mt-8">
+            <%= for {offer, index} <- Enum.with_index(@all_offers, 1) do %>
+              <.flight_card offer={offer} index={index} />
+            <% end %>
+          </div>
         <% end %>
+
+        <div class="flex-1"></div>
 
         <.footer />
       </div>

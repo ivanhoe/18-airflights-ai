@@ -8,7 +8,7 @@
 ### to merge POT files into PO files.
 msgid ""
 msgstr ""
-"Language: es\n"
+"Language: en\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: lib/airflights_web/components/core_components.ex:342
@@ -19,7 +19,7 @@ msgstr ""
 #: lib/airflights_web/components/flight_search/flight_card.ex:28
 #, elixir-autogen, elixir-format
 msgid "Airline"
-msgstr "Aerolínea"
+msgstr ""
 
 #: lib/airflights_web/components/layouts.ex:99
 #: lib/airflights_web/components/layouts.ex:111
@@ -30,57 +30,57 @@ msgstr ""
 #: lib/airflights_web/components/flight_search/flight_card.ex:13
 #, elixir-autogen, elixir-format
 msgid "Cheapest Flight Found!"
-msgstr "¡Vuelo más barato encontrado!"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/flight_card.ex:42
 #, elixir-autogen, elixir-format
 msgid "Departure"
-msgstr "Salida"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/flight_card.ex:34
 #, elixir-autogen, elixir-format
 msgid "Direct"
-msgstr "Directo"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/flight_card.ex:38
 #, elixir-autogen, elixir-format
 msgid "Duration"
-msgstr "Duración"
+msgstr ""
 
 #: lib/airflights_web/live/flight_search_live.ex:127
 #, elixir-autogen, elixir-format
 msgid "Find the cheapest flights from Mexico City to Vienna"
-msgstr "Encuentra los vuelos más baratos de Ciudad de México a Viena"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/flight_segments.ex:33
 #, elixir-autogen, elixir-format
 msgid "Flight"
-msgstr "Vuelo"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/flight_segments.ex:12
 #, elixir-autogen, elixir-format
 msgid "Flight Segments"
-msgstr "Escalas"
+msgstr ""
 
 #: lib/airflights_web/live/flight_search_live.ex:127
 #, elixir-autogen, elixir-format
 msgid "Flight Tracker"
-msgstr "Rastreador de Vuelos"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/flight_segments.ex:40
 #, elixir-autogen, elixir-format
 msgid "Layover at"
-msgstr "Escala en"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/footer.ex:8
 #, elixir-autogen, elixir-format
 msgid "Powered by SerpApi (Google Flights) • Built with Elixir & Phoenix LiveView"
-msgstr "Desarrollado por SerpApi (Google Flights) • Creado con Elixir y Phoenix LiveView"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/search_form.ex:146
 #, elixir-autogen, elixir-format
 msgid "Searching..."
-msgstr "Buscando..."
+msgstr ""
 
 #: lib/airflights_web/components/layouts.ex:106
 #, elixir-autogen, elixir-format
@@ -90,7 +90,7 @@ msgstr ""
 #: lib/airflights_web/components/flight_search/flight_card.ex:32
 #, elixir-autogen, elixir-format
 msgid "Stops"
-msgstr "Escalas"
+msgstr ""
 
 #: lib/airflights_web/components/layouts.ex:94
 #, elixir-autogen, elixir-format
@@ -105,22 +105,22 @@ msgstr ""
 #: lib/airflights_web/components/flight_search/flight_card.ex:34
 #, elixir-autogen, elixir-format
 msgid "stop(s)"
-msgstr "escala(s)"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/utils.ex:36
 #, elixir-autogen, elixir-format
 msgid "Apr"
-msgstr "Abr"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/utils.ex:40
 #, elixir-autogen, elixir-format
 msgid "Aug"
-msgstr "Ago"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/utils.ex:44
 #, elixir-autogen, elixir-format
 msgid "Dec"
-msgstr "Dic"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/search_form.ex:57
 #, elixir-autogen, elixir-format
@@ -130,12 +130,12 @@ msgstr ""
 #: lib/airflights_web/components/flight_search/search_form.ex:151
 #, elixir-autogen, elixir-format
 msgid "Explore"
-msgstr "Buscar"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/utils.ex:34
 #, elixir-autogen, elixir-format
 msgid "Feb"
-msgstr "Feb"
+msgstr ""
 
 #: lib/airflights_web/live/flight_search_live.ex:72
 #, elixir-autogen, elixir-format
@@ -145,37 +145,37 @@ msgstr ""
 #: lib/airflights_web/components/flight_search/utils.ex:33
 #, elixir-autogen, elixir-format
 msgid "Jan"
-msgstr "Ene"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/utils.ex:39
 #, elixir-autogen, elixir-format
 msgid "Jul"
-msgstr "Jul"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/utils.ex:38
 #, elixir-autogen, elixir-format
 msgid "Jun"
-msgstr "Jun"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/utils.ex:35
 #, elixir-autogen, elixir-format
 msgid "Mar"
-msgstr "Mar"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/utils.ex:37
 #, elixir-autogen, elixir-format
 msgid "May"
-msgstr "May"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/utils.ex:43
 #, elixir-autogen, elixir-format
 msgid "Nov"
-msgstr "Nov"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/utils.ex:42
 #, elixir-autogen, elixir-format
 msgid "Oct"
-msgstr "Oct"
+msgstr ""
 
 #: lib/airflights_web/components/flight_search/search_form.ex:43
 #, elixir-autogen, elixir-format
@@ -195,4 +195,4 @@ msgstr ""
 #: lib/airflights_web/components/flight_search/utils.ex:41
 #, elixir-autogen, elixir-format
 msgid "Sep"
-msgstr "Sep"
+msgstr ""
