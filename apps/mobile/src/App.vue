@@ -139,7 +139,7 @@ async function handleToggleFavorite(id: number) {
       <button
         @click="activeTab = 'search'"
         :class="[
-          'flex-1 py-3 text-center font-medium transition-colors',
+          'flex-1 py-3 text-center text-sm sm:text-base font-medium transition-colors',
           activeTab === 'search' 
             ? 'text-white border-b-2 border-violet-400' 
             : 'text-violet-400 hover:text-violet-300'
@@ -150,7 +150,7 @@ async function handleToggleFavorite(id: number) {
       <button
         @click="activeTab = 'saved'"
         :class="[
-          'flex-1 py-3 text-center font-medium transition-colors',
+          'flex-1 py-3 text-center text-sm sm:text-base font-medium transition-colors',
           activeTab === 'saved' 
             ? 'text-white border-b-2 border-violet-400' 
             : 'text-violet-400 hover:text-violet-300'

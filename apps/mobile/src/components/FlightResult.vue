@@ -71,42 +71,43 @@ const hasSegments = computed(() => props.offer.segments && props.offer.segments.
         ? 'bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-green-500/30' 
         : 'bg-white/5 border-white/10'
     ]">
-      <div class="flex items-center justify-between">
+      <!-- Top row: Price and Duration -->
+      <div class="flex items-start justify-between mb-3">
         <div>
-          <div class="text-3xl font-bold text-green-400">{{ formattedPrice }}</div>
-          <div class="text-sm text-green-300/80">{{ offer.currency }} {{ $t('results.total') }}</div>
+          <div class="text-2xl sm:text-3xl font-bold text-green-400">{{ formattedPrice }}</div>
+          <div class="text-xs sm:text-sm text-green-300/80">{{ offer.currency }} {{ $t('results.total') }}</div>
         </div>
         
-        <!-- Action Buttons -->
-        <div class="flex items-center gap-2">
-          <!-- Save Button (when not saved) -->
-          <button 
-            v-if="!savedId"
-            @click="handleSaveClick"
-            class="px-4 py-2 flex items-center gap-2 bg-violet-600 hover:bg-violet-500 rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 text-white font-medium"
-          >
-            <span>💾</span>
-            <span>{{ $t('results.save') }}</span>
-          </button>
-          
-          <!-- Favorite Button (when saved) -->
-          <button 
-            v-if="savedId"
-            @click="handleFavoriteClick"
-            class="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110 active:scale-95"
-            :class="isFavorite ? 'bg-amber-500/30 text-amber-400' : 'bg-white/10 text-white/50 hover:text-amber-400'"
-            :title="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
-          >
-            <span class="text-2xl">{{ isFavorite ? '⭐' : '☆' }}</span>
-          </button>
-        </div>
-
         <div class="text-right">
-          <div class="text-lg font-semibold">{{ formatDuration(offer.duration) }}</div>
-          <div class="text-sm text-violet-300">
+          <div class="text-base sm:text-lg font-semibold">{{ formatDuration(offer.duration) }}</div>
+          <div class="text-xs sm:text-sm text-violet-300">
             {{ offer.stops === 0 ? $t('results.direct') : $t('results.stop_count', { count: offer.stops }, offer.stops) }}
           </div>
         </div>
+      </div>
+      
+      <!-- Bottom row: Action buttons -->
+      <div class="flex items-center justify-end gap-2">
+        <!-- Save Button (when not saved) -->
+        <button 
+          v-if="!savedId"
+          @click="handleSaveClick"
+          class="px-4 py-2 flex items-center gap-2 bg-violet-600 hover:bg-violet-500 rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 text-white font-medium text-sm"
+        >
+          <span>💾</span>
+          <span>{{ $t('results.save') }}</span>
+        </button>
+        
+        <!-- Favorite Button (when saved) -->
+        <button 
+          v-if="savedId"
+          @click="handleFavoriteClick"
+          class="w-10 h-10 flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110 active:scale-95"
+          :class="isFavorite ? 'bg-amber-500/30 text-amber-400' : 'bg-white/10 text-white/50 hover:text-amber-400'"
+          :title="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
+        >
+          <span class="text-xl">{{ isFavorite ? '⭐' : '☆' }}</span>
+        </button>
       </div>
     </div>
 

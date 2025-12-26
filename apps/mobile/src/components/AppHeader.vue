@@ -14,7 +14,7 @@ function toggleLanguage() {
 </script>
 
 <template>
-  <header class="text-center mb-8 relative">
+  <header class="text-center mb-6 relative px-2">
     <button 
       @click="toggleLanguage"
       class="absolute top-0 right-0 p-2 text-2xl hover:scale-110 transition-transform cursor-pointer bg-white/5 rounded-full backdrop-blur-sm"
@@ -22,7 +22,7 @@ function toggleLanguage() {
     >
       {{ locale === 'es' ? '🇲🇽' : '🇺🇸' }}
     </button>
-    <h1 class="text-3xl font-bold mb-2">{{ title }}</h1>
-    <p class="text-violet-300">{{ subtitle }}</p>
+    <h1 class="text-2xl sm:text-3xl font-bold mb-2 pr-12">{{ title }}</h1>
+    <p class="text-violet-300 text-sm sm:text-base">{{ subtitle }}</p>
   </header>
 </template>
