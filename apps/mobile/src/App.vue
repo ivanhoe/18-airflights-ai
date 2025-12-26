@@ -1,11 +1,10 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import { searchCheapestFlight, type FlightOffer } from './api'
+import { searchFlights, type FlightOffer } from './api'
 import { initDatabase, saveFlightResult, toggleFavorite } from './db'
 
 // Components
 import AppHeader from './components/AppHeader.vue'
-import RouteDisplay from './components/RouteDisplay.vue'
 import SearchForm from './components/SearchForm.vue'
 import FlightResult from './components/FlightResult.vue'
 import ErrorMessage from './components/ErrorMessage.vue'
@@ -18,8 +17,10 @@ const activeTab = ref<Tab>('search')
 // Search State
 const origin = ref('MEX')
 const destination = ref('VIE')
-const selectedDate = ref(getDefaultDate())
-const offer = ref<FlightOffer | null>(null)
+const departureDate = ref(getDefaultDate())
+const returnDate = ref(getDefaultReturnDate())
+const roundTrip = ref(false)
+const offers = ref<FlightOffer[]>([])
 const loading = ref(false)
 const error = ref<string | null>(null)
 const lastSavedId = ref<number | null>(null)
@@ -31,6 +32,12 @@ const isOnline = ref(navigator.onLine)
 function getDefaultDate(): string {
   const date = new Date()
   date.setDate(date.getDate() + 30)
+  return date.toISOString().split('T')[0]
+}
+
+function getDefaultReturnDate(): string {
+  const date = new Date()
+  date.setDate(date.getDate() + 37) // 7 days after departure
   return date.toISOString().split('T')[0]
 }
 
@@ -47,7 +54,7 @@ onMounted(async () => {
   window.addEventListener('offline', () => {
     isOnline.value = false
     // Auto-switch to saved flights when going offline
-    if (activeTab.value === 'search' && !offer.value) {
+    if (activeTab.value === 'search' && offers.value.length === 0) {
       activeTab.value = 'saved'
     }
   })
@@ -56,28 +63,29 @@ onMounted(async () => {
 async function handleSearch() {
   loading.value = true
   error.value = null
-  offer.value = null
+  offers.value = []
   lastSavedId.value = null
   isFavorite.value = false
 
-  const result = await searchCheapestFlight(
+  const result = await searchFlights(
     origin.value,
     destination.value,
-    selectedDate.value
+    departureDate.value
   )
 
   loading.value = false
 
-  if (result.success && result.data) {
-    offer.value = result.data
+  if (result.success && result.data && result.data.length > 0) {
+    // Take top 5 cheapest
+    offers.value = result.data.slice(0, 5)
     
-    // Auto-save to database
+    // Auto-save first result to database
     try {
       lastSavedId.value = await saveFlightResult(
         origin.value,
         destination.value,
-        selectedDate.value,
-        result.data
+        departureDate.value,
+        offers.value[0]
       )
     } catch (e) {
       console.error('Failed to save flight:', e)
@@ -132,7 +140,7 @@ async function handleToggleFavorite(id: number) {
       </button>
     </nav>
 
-    <div class="flex-1">
+    <div class="flex-1 px-4">
       <!-- Search Tab -->
       <div v-if="activeTab === 'search'">
         <AppHeader 
@@ -141,15 +149,12 @@ async function handleToggleFavorite(id: number) {
         />
 
         <main class="card">
-          <RouteDisplay
-            :origin="origin"
-            origin-city="Mexico City"
-            :destination="destination"
-            destination-city="Vienna"
-          />
-
           <SearchForm
-            v-model="selectedDate"
+            v-model:origin="origin"
+            v-model:destination="destination"
+            v-model:departure-date="departureDate"
+            v-model:return-date="returnDate"
+            v-model:round-trip="roundTrip"
             :loading="loading"
             @search="handleSearch"
           />
@@ -157,13 +162,18 @@ async function handleToggleFavorite(id: number) {
           <ErrorMessage v-if="error" :message="error" />
         </main>
 
-        <FlightResult 
-          v-if="offer" 
-          :offer="offer" 
-          :saved-id="lastSavedId"
-          :is-favorite="isFavorite"
-          @toggle-favorite="handleToggleFavorite"
-        />
+        <!-- Results -->
+        <div v-if="offers.length > 0" class="space-y-4 mt-4">
+          <FlightResult 
+            v-for="(offer, index) in offers"
+            :key="index"
+            :offer="offer" 
+            :index="index + 1"
+            :saved-id="index === 0 ? lastSavedId : null"
+            :is-favorite="index === 0 ? isFavorite : false"
+            @toggle-favorite="handleToggleFavorite"
+          />
+        </div>
         
         <!-- Save confirmation -->
         <div 

@@ -4,6 +4,7 @@ import type { FlightOffer } from '../api'
 
 const props = defineProps<{
   offer: FlightOffer
+  index?: number
   savedId?: number | null
   isFavorite?: boolean
 }>()
@@ -17,6 +18,8 @@ function handleFavoriteClick() {
     emit('toggle-favorite', props.savedId)
   }
 }
+
+const isFirst = computed(() => props.index === 1)
 
 const formattedPrice = computed(() => {
   if (!props.offer?.price) return null
@@ -52,11 +55,17 @@ const hasSegments = computed(() => props.offer.segments && props.offer.segments.
 </script>
 
 <template>
-  <section class="card mt-6 animate-fade-in">
-    <h2 class="text-center text-xl font-bold mb-4">🎉 {{ $t('results.title') }}</h2>
+  <section class="card animate-fade-in">
+    <h2 v-if="isFirst" class="text-center text-xl font-bold mb-4">🎉 {{ $t('results.title') }}</h2>
+    <div v-else class="text-lg font-semibold text-violet-300 mb-4">{{ $t('results.option') }} {{ index }}</div>
 
     <!-- Price Header -->
-    <div class="bg-gradient-to-br from-green-500/20 to-emerald-500/20 rounded-2xl p-4 border border-green-500/30 mb-4">
+    <div :class="[
+      'rounded-2xl p-4 border mb-4',
+      isFirst 
+        ? 'bg-gradient-to-br from-green-500/20 to-emerald-500/20 border-green-500/30' 
+        : 'bg-white/5 border-white/10'
+    ]">
       <div class="flex items-center justify-between">
         <div>
           <div class="text-3xl font-bold text-green-400">{{ formattedPrice }}</div>

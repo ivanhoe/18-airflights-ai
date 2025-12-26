@@ -55,15 +55,6 @@ function formatDate(dateStr: string): string {
 function formatPrice(price: number, currency: string): string {
   return new Intl.NumberFormat('en-US', { style: 'currency', currency }).format(price)
 }
-
-function parseSegments(segmentsJson: string | null): any[] {
-  if (!segmentsJson) return []
-  try {
-    return JSON.parse(segmentsJson)
-  } catch {
-    return []
-  }
-}
 </script>
 
 <template>

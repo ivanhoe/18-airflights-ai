@@ -12,7 +12,12 @@
         "loading": "Searching...",
         "error_api": "API Error",
         "saved_flights": "Favorites",
-        "saved_confirmation": "Saved for offline access"
+        "saved_confirmation": "Saved for offline access",
+        "round_trip": "Round trip",
+        "one_way": "One way",
+        "economy": "Economy",
+        "searching": "Searching...",
+        "explore": "Explore"
     },
     "tabs": {
         "search": "Search",
@@ -22,6 +27,7 @@
     "footer": "Powered by SerpApi (Google Flights) • Built with Tauri + Vue",
     "results": {
         "title": "Cheapest Flight",
+        "option": "Option",
         "price": "Price",
         "airline": "Airline",
         "stops": "Stops",
@@ -34,7 +40,8 @@
         "details_unavailable": "Flight details unavailable",
         "details_unavailable_desc": "This flight has stops but segment details were not returned.",
         "total": "total",
-        "legroom": "Legroom: {value}"
+        "legroom": "Legroom: {value}",
+        "departure": "Departure"
     },
     "saved": {
         "filters": {

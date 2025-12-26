@@ -12,7 +12,12 @@
         "loading": "Buscando...",
         "error_api": "Error de API",
         "saved_flights": "Favoritos",
-        "saved_confirmation": "Guardado para acceso offline"
+        "saved_confirmation": "Guardado para acceso offline",
+        "round_trip": "Ida y vuelta",
+        "one_way": "Solo ida",
+        "economy": "Turista",
+        "searching": "Buscando...",
+        "explore": "Explorar"
     },
     "tabs": {
         "search": "Buscar",
@@ -22,6 +27,7 @@
     "footer": "Desarrollado por SerpApi (Google Flights) • Creado con Tauri + Vue",
     "results": {
         "title": "Vuelo Más Barato",
+        "option": "Opción",
         "price": "Precio",
         "airline": "Aerolínea",
         "stops": "Escalas",
@@ -34,7 +40,8 @@
         "details_unavailable": "Detalles no disponibles",
         "details_unavailable_desc": "Este vuelo tiene escalas pero no hay detalles disponibles.",
         "total": "total",
-        "legroom": "Espacio: {value}"
+        "legroom": "Espacio: {value}",
+        "departure": "Salida"
     },
     "saved": {
         "filters": {
