@@ -17,7 +17,8 @@
         "one_way": "Solo ida",
         "economy": "Turista",
         "searching": "Buscando...",
-        "explore": "Explorar"
+        "explore": "Explorar",
+        "add_return": "+ Regreso"
     },
     "tabs": {
         "search": "Buscar",

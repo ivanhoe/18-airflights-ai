@@ -123,15 +123,26 @@ function handleSubmit() {
         />
       </div>
       
-      <div class="flex items-center gap-2 px-3 py-3 bg-slate-800/80 border border-slate-600/50 rounded-lg" :class="{ 'opacity-50': !roundTrip }">
-        <input
-          type="date"
-          :value="returnDate"
-          @input="emit('update:returnDate', ($event.target as HTMLInputElement).value)"
-          :min="departureDate"
-          :disabled="!roundTrip"
-          class="bg-transparent text-white text-sm focus:outline-none flex-1"
-        />
+      <!-- Return Date - Show input when round trip, placeholder when one-way -->
+      <div 
+        class="flex items-center gap-2 px-3 py-3 bg-slate-800/80 border border-slate-600/50 rounded-lg cursor-pointer"
+        @click="!roundTrip && emit('update:roundTrip', true)"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-slate-400 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+        </svg>
+        <template v-if="roundTrip">
+          <input
+            type="date"
+            :value="returnDate"
+            @input="emit('update:returnDate', ($event.target as HTMLInputElement).value)"
+            :min="departureDate"
+            class="bg-transparent text-white text-sm focus:outline-none flex-1"
+          />
+        </template>
+        <template v-else>
+          <span class="text-slate-500 text-sm">{{ t('search.add_return') }}</span>
+        </template>
       </div>
     </div>
 

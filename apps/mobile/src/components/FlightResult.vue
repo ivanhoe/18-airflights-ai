@@ -128,8 +128,8 @@ const hasSegments = computed(() => props.offer.segments && props.offer.segments.
             <div class="flex-1 px-4">
               <div class="relative">
                 <div class="border-t border-dashed border-violet-400/50"></div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-slate-900 px-2">
-                  <span class="text-xs text-violet-300">{{ formatDuration(segment.duration) }}</span>
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-violet-900/90 px-3 py-1 rounded-full border border-violet-500/30">
+                  <span class="text-xs text-violet-200 font-medium">{{ formatDuration(segment.duration) }}</span>
                 </div>
               </div>
             </div>

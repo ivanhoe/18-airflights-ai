@@ -17,7 +17,8 @@
         "one_way": "One way",
         "economy": "Economy",
         "searching": "Searching...",
-        "explore": "Explore"
+        "explore": "Explore",
+        "add_return": "+ Return"
     },
     "tabs": {
         "search": "Search",

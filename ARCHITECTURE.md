@@ -14,20 +14,21 @@ apps/
 │   │   │   ├── flights.ex          # 🎯 Application Service (entry point)
 │   │   │   ├── flights/offer.ex    # Domain Entity
 │   │   │   ├── ports/              # 📋 Contracts (behaviours)
-│   │   │   │   ├── flight_provider.ex
-│   │   │   │   └── auth_provider.ex
+│   │   │   │   └── flight_provider.ex
 │   │   │   └── adapters/           # 🔌 Implementations
-│   │   │       └── amadeus/        # Amadeus API client
+│   │   │       ├── serpapi/        # SerpApi (Google Flights)
+│   │   │       └── resilient_provider.ex
 │   │   └── airflights_web/     # Web Layer
 │   │       ├── controllers/api/    # REST API
-│   │       └── live/               # LiveView UI
+│   │       ├── live/               # LiveView UI
+│   │       └── components/         # Reusable components
 │   └── assets/                 # Frontend (Tailwind, Vue via LiveVue)
 │
 └── mobile/                 # Tauri (Rust + Vue) - Cross-platform app
     ├── src/                    # Vue 3 frontend
     │   ├── components/         # UI components
     │   ├── api.ts              # API client
-    │   └── index.css           # Tailwind v4 styles
+    │   └── locales/            # i18n (en/es)
     └── src-tauri/              # Rust backend
         └── gen/                # iOS/Android targets
 ```
@@ -43,15 +44,16 @@ graph LR
     subgraph "Driving Adapters"
         A[REST API] --> B
         C[LiveView UI] --> B
+        D[Tauri Mobile] --> A
     end
     
     subgraph "Domain"
-        B[Flights Service] --> D
+        B[Flights Service] --> E
     end
     
     subgraph "Driven Adapters"
-        D[FlightProvider Port] --> E[Amadeus Adapter]
-        E --> F[Amadeus API]
+        E[FlightProvider Port] --> F[SerpApi Adapter]
+        F --> G[Google Flights via SerpApi]
     end
 ```
 
@@ -72,16 +74,14 @@ graph LR
 |--------|------|-------------|
 | `POST` | `/api/flights/cheapest` | Get cheapest flight |
 | `POST` | `/api/flights/search` | Search all flights |
+| `GET` | `/api/flights/defaults` | Get top 5 suggested flights |
 
 ### Example Request
 
-```json
-POST /api/flights/cheapest
-{
-  "origin": "MEX",
-  "destination": "VIE", 
-  "date": "2025-02-15"
-}
+```bash
+curl -X POST http://localhost:4000/api/flights/search \
+  -H "Content-Type: application/json" \
+  -d '{"origin": "MEX", "destination": "VIE", "date": "2025-02-15"}'
 ```
 
 ### Response
@@ -89,14 +89,18 @@ POST /api/flights/cheapest
 ```json
 {
   "success": true,
-  "data": {
-    "price": 850.50,
-    "currency": "USD",
-    "departure_at": "2025-02-15T08:00:00Z",
-    "duration": "PT15H30M",
-    "stops": 1,
-    "airline_code": "LH"
-  }
+  "data": [
+    {
+      "price": 8500.00,
+      "currency": "MXN",
+      "departure_at": "2025-02-15 08:00",
+      "duration": "PT15H30M",
+      "stops": 1,
+      "airline": "Air France",
+      "airline_code": "AF",
+      "segments": [...]
+    }
+  ]
 }
 ```
 
@@ -108,12 +112,12 @@ POST /api/flights/cheapest
 |-----------|------------|---------|
 | **Backend** | Phoenix | 1.8 |
 | **Language** | Elixir | 1.15+ |
-| **Database** | PostgreSQL | - |
+| **Web UI** | LiveView + Components | - |
 | **Web Styling** | Tailwind CSS | 3.x |
 | **Mobile Framework** | Tauri | 2.0 |
 | **Mobile UI** | Vue 3 + TypeScript | 3.5 |
 | **Mobile Styling** | Tailwind CSS | 4.x |
-| **External API** | Amadeus | v1 |
+| **Flight Data** | SerpApi (Google Flights) | - |
 
 ---
 
@@ -122,12 +126,10 @@ POST /api/flights/cheapest
 ### Environment Variables
 
 ```bash
-# Amadeus API (required for flight search)
-AMADEUS_API_KEY=your_api_key
-AMADEUS_API_SECRET=your_api_secret
+# SerpApi (required for flight search)
+SERPAPI_API_KEY=your_api_key
 
-# Optional: Change flight provider
-# config :airflights, :flight_provider, MyApp.MockProvider
+# Get your free API key at https://serpapi.com
 ```
 
 ### Dependency Injection
@@ -135,7 +137,8 @@ AMADEUS_API_SECRET=your_api_secret
 The flight provider is configured in `config/config.exs`:
 
 ```elixir
-config :airflights, :flight_provider, Airflights.Adapters.Amadeus.FlightProvider
+config :airflights, :flight_provider, 
+  Airflights.Adapters.SerpApi.FlightProvider
 ```
 
 ---
@@ -146,6 +149,7 @@ config :airflights, :flight_provider, Airflights.Adapters.Amadeus.FlightProvider
 
 ```bash
 cd apps/web
+export SERPAPI_API_KEY="your_key"
 mix deps.get
 cd assets && npm install && cd ..
 mix phx.server
@@ -162,25 +166,32 @@ npm run tauri ios dev      # iOS Simulator
 npm run tauri android dev  # Android Emulator
 ```
 
+> **Note**: Mobile app requires the Phoenix backend running on port 4000.
+
+---
+
+## Security
+
+- API keys are **never** exposed to the frontend
+- All sensitive config is loaded from environment variables at runtime
+- The `.gitignore` excludes `.env` files
+- Mobile app communicates only with the backend, never directly with SerpApi
+
 ---
 
 ## Recent Changes
 
-### Tailwind CSS v4 Migration (Mobile)
-
-Migrated `apps/mobile` from vanilla CSS to Tailwind CSS v4:
-
-- **Plugin**: `@tailwindcss/vite` (not PostCSS)
-- **Config**: CSS-first with `@theme` directive
-- **Result**: ~51% code reduction across components
-
-See: [walkthrough.md](file:///Users/ivanalvarezfrias/.gemini/antigravity/brain/29061168-6e74-4a50-a618-dce61d94e84c/walkthrough.md)
+- **SerpApi Integration**: Replaced Amadeus with SerpApi (Google Flights)
+- **Expanded Search Form**: Origin/destination selection, round-trip support
+- **Multi-result Display**: Shows top 5 cheapest flights
+- **Internationalization**: English and Spanish support
+- **Mobile Sync**: Full feature parity between web and mobile
 
 ---
 
 ## Coding Guidelines
 
-See [AGENTS.md](file:///Users/ivanalvarezfrias/projects/18-airflights-ai/apps/web/AGENTS.md) for:
+See [AGENTS.md](./apps/web/AGENTS.md) for:
 - Elixir best practices
 - Phoenix LiveView patterns
 - Ecto guidelines
