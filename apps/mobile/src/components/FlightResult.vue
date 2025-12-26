@@ -11,12 +11,17 @@ const props = defineProps<{
 
 const emit = defineEmits<{
   'toggle-favorite': [id: number]
+  'save-flight': [offer: FlightOffer]
 }>()
 
 function handleFavoriteClick() {
   if (props.savedId) {
     emit('toggle-favorite', props.savedId)
   }
+}
+
+function handleSaveClick() {
+  emit('save-flight', props.offer)
 }
 
 const isFirst = computed(() => props.index === 1)
@@ -72,16 +77,29 @@ const hasSegments = computed(() => props.offer.segments && props.offer.segments.
           <div class="text-sm text-green-300/80">{{ offer.currency }} {{ $t('results.total') }}</div>
         </div>
         
-        <!-- Favorite Button -->
-        <button 
-          v-if="savedId"
-          @click="handleFavoriteClick"
-          class="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110 active:scale-95"
-          :class="isFavorite ? 'bg-amber-500/30 text-amber-400' : 'bg-white/10 text-white/50 hover:text-amber-400'"
-          :title="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
-        >
-          <span class="text-2xl">{{ isFavorite ? '⭐' : '☆' }}</span>
-        </button>
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-2">
+          <!-- Save Button (when not saved) -->
+          <button 
+            v-if="!savedId"
+            @click="handleSaveClick"
+            class="px-4 py-2 flex items-center gap-2 bg-violet-600 hover:bg-violet-500 rounded-lg transition-all duration-200 hover:scale-105 active:scale-95 text-white font-medium"
+          >
+            <span>💾</span>
+            <span>{{ $t('results.save') }}</span>
+          </button>
+          
+          <!-- Favorite Button (when saved) -->
+          <button 
+            v-if="savedId"
+            @click="handleFavoriteClick"
+            class="w-12 h-12 flex items-center justify-center rounded-full transition-all duration-200 hover:scale-110 active:scale-95"
+            :class="isFavorite ? 'bg-amber-500/30 text-amber-400' : 'bg-white/10 text-white/50 hover:text-amber-400'"
+            :title="isFavorite ? 'Remove from favorites' : 'Add to favorites'"
+          >
+            <span class="text-2xl">{{ isFavorite ? '⭐' : '☆' }}</span>
+          </button>
+        </div>
 
         <div class="text-right">
           <div class="text-lg font-semibold">{{ formatDuration(offer.duration) }}</div>

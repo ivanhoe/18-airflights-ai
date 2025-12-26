@@ -35,6 +35,7 @@
         "duration": "Duración",
         "direct": "Directo",
         "stop_count": "{count} escala | {count} escalas",
+        "save": "Guardar",
         "segments": "Tramos del Vuelo",
         "layover": "Escala en {airport}",
         "flight_number": "Vuelo {number}",

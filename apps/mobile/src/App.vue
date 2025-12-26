@@ -2,6 +2,7 @@
 import { ref, onMounted } from 'vue'
 import { searchFlights, type FlightOffer } from './api'
 import { initDatabase, saveFlightResult, toggleFavorite } from './db'
+import { notifyFlightSaved } from './notifications'
 
 // Components
 import AppHeader from './components/AppHeader.vue'
@@ -25,6 +26,9 @@ const loading = ref(false)
 const error = ref<string | null>(null)
 const lastSavedId = ref<number | null>(null)
 const isFavorite = ref(false)
+
+// Track which offers have been saved (by index)
+const savedOfferIds = ref<Map<number, number>>(new Map())
 
 // Network state
 const isOnline = ref(navigator.onLine)
@@ -78,22 +82,38 @@ async function handleSearch() {
   if (result.success && result.data && result.data.length > 0) {
     // Take top 5 cheapest
     offers.value = result.data.slice(0, 5)
-    
-    // Auto-save first result to database
-    try {
-      lastSavedId.value = await saveFlightResult(
-        origin.value,
-        destination.value,
-        departureDate.value,
-        offers.value[0]
-      )
-    } catch (e) {
-      console.error('Failed to save flight:', e)
-    }
+    savedOfferIds.value.clear()
   } else {
     error.value = result.error || 'No flights found'
   }
 }
+
+async function handleSaveFlight(offer: FlightOffer, index: number) {
+  try {
+    const savedId = await saveFlightResult(
+      origin.value,
+      destination.value,
+      departureDate.value,
+      offer
+    )
+    
+    // Track this offer as saved
+    savedOfferIds.value.set(index, savedId)
+    
+    // Send native notification
+    await notifyFlightSaved(
+      origin.value,
+      destination.value,
+      offer.price,
+      offer.currency
+    )
+    
+    console.log('[App] Flight saved and notification sent')
+  } catch (e) {
+    console.error('Failed to save flight:', e)
+  }
+}
+
 
 async function handleToggleFavorite(id: number) {
   try {
@@ -169,9 +189,10 @@ async function handleToggleFavorite(id: number) {
             :key="index"
             :offer="offer" 
             :index="index + 1"
-            :saved-id="index === 0 ? lastSavedId : null"
-            :is-favorite="index === 0 ? isFavorite : false"
+            :saved-id="savedOfferIds.get(index) ?? null"
+            :is-favorite="false"
             @toggle-favorite="handleToggleFavorite"
+            @save-flight="(o) => handleSaveFlight(o, index)"
           />
         </div>
         

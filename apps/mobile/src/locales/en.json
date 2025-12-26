@@ -35,6 +35,7 @@
         "duration": "Duration",
         "direct": "Direct",
         "stop_count": "{count} stop | {count} stops",
+        "save": "Save",
         "segments": "Flight Segments",
         "layover": "Layover at {airport}",
         "flight_number": "Flight {number}",
