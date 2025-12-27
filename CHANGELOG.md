@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Mobile:** Implemented Favorites feature using SQLite for local storage.
   - Added `SavedFlights` component.
   - Created `db.ts` service for database operations.
-  - Integrated `sqllite` plugin in Tauri.
+  - Integrated `sqlite` plugin in Tauri.
 - **Web:** Added flight segment breakdown in `FlightSearchLive` results card.
   - Shows departure/arrival airports, times, airline, and duration for each leg.
   - Displays "Layover" indicators between segments.

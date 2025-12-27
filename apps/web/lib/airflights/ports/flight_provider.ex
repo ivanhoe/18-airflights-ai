@@ -3,9 +3,9 @@ defmodule Airflights.Ports.FlightProvider do
   Port (behaviour) defining the contract for flight search providers.
 
   This follows the Dependency Inversion Principle - the core application
-  depends on this abstraction, not on concrete implementations like Amadeus.
+  depends on this abstraction, not on concrete implementations like SerpApi.
 
-  Any adapter (Amadeus, Skyscanner, Kiwi, etc.) must implement this behaviour.
+  Any adapter (SerpApi, Skyscanner, Kiwi, etc.) must implement this behaviour.
   """
 
   alias Airflights.Flights.Offer

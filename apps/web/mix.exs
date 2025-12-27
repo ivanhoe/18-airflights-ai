@@ -63,7 +63,7 @@ defmodule Airflights.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
       {:bandit, "~> 1.5"},
-      # HTTP client for Amadeus API
+      # HTTP client for external APIs
       {:req, "~> 0.5"},
       # LiveVue for Vue.js integration
       {:live_vue, "~> 0.7"},

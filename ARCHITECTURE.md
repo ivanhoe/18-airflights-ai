@@ -137,8 +137,8 @@ SERPAPI_API_KEY=your_api_key
 The flight provider is configured in `config/config.exs`:
 
 ```elixir
-config :airflights, :flight_provider, 
-  Airflights.Adapters.SerpApi.FlightProvider
+config :airflights,
+  flight_provider: Airflights.Adapters.ResilientProvider
 ```
 
 ---
