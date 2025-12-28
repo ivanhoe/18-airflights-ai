@@ -7,6 +7,55 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.3.0] - 2025-12-28
+
+### Added
+- **Mobile:** New composables for centralized logic:
+  - `useFormatters` - formatPrice, formatDate, formatTime, formatDuration, formatTimeAgo
+  - `useLocale` - Language switching (es/en) with flagEmoji, toggleLanguage
+  - `usePriceWatcher` - Price watcher API calls and state management
+
+- **Mobile:** New constants:
+  - `constants/airports.ts` - Single source of truth for airport data
+
+- **Mobile:** New sub-components for better code organization:
+  - `inputs/` - AirportSelect, DateInput
+  - `display/` - PriceDisplay
+  - `flight/` - FlightPriceHeader, FlightSegment, FlightSimpleView
+  - `watcher/` - WatcherHeader, WatcherPriceStatus, WatcherActions
+  - `search/` - TripOptionsChips, RouteCard, DateCard
+
+- **Mobile:** Price Watcher feature:
+  - `WatchersView` - Main view for managing price watchers
+  - `WatcherForm` - Form to create new watchers
+  - `WatcherCard` - Display watcher with price status
+  - `PriceHistoryModal` - Show price history as bottom sheet
+
+- **Mobile:** Global CSS component classes in `index.css`:
+  - input-card, input-row, input-divider
+  - chip, chip-select, chip-icon
+  - select-wrapper, select-input
+  - modal-backdrop, modal-sheet, modal-handle
+  - price-input-wrapper, offline-banner
+
+### Changed
+- **Mobile:** Major component refactoring:
+  - FlightResult: 137 → 60 lines (split into 3 sub-components)
+  - WatcherCard: 138 → 71 lines (split into 3 sub-components)
+  - SearchForm: 310 → 81 lines (split into 3 sub-components)
+  - AppHeader: Now uses useLocale composable
+
+- **Mobile:** Migrated ~350 lines of scoped CSS to global Tailwind classes
+
+- **Mobile:** Reorganized component folders:
+  - `ui/` split into `inputs/` and `display/`
+
+### Removed
+- **Mobile:** Saved Flights feature completely removed:
+  - Deleted SavedView, SavedFlights components
+  - Removed saved flights logic from useFlightSearch, db.ts
+  - Updated navigation from 3 tabs to 2 tabs (Search, Alerts)
+
 ## [0.2.0] - 2025-12-27
 
 ### Added

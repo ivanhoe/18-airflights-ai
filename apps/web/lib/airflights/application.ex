@@ -12,6 +12,8 @@ defmodule Airflights.Application do
       Airflights.Repo,
       {DNSCluster, query: Application.get_env(:airflights, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Airflights.PubSub},
+      # Price Watcher processes
+      Airflights.Watchers.Supervisor,
       # Start to serve requests, typically the last entry
       AirflightsWeb.Endpoint
     ]

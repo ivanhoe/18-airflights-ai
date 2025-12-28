@@ -1,6 +1,6 @@
 import { ref, watch, type Ref } from 'vue'
 
-export type Tab = 'search' | 'saved'
+export type Tab = 'search' | 'watchers'
 
 /**
  * Composable for tab navigation with offline-aware behavior
@@ -8,10 +8,10 @@ export type Tab = 'search' | 'saved'
 export function useNavigation(isOnline: Ref<boolean>) {
     const activeTab = ref<Tab>('search')
 
-    // Auto-switch to saved flights when going offline
+    // Auto-switch to watchers when going offline (can view cached alerts)
     watch(isOnline, (online) => {
         if (!online && activeTab.value === 'search') {
-            activeTab.value = 'saved'
+            activeTab.value = 'watchers'
         }
     })
 
@@ -19,13 +19,13 @@ export function useNavigation(isOnline: Ref<boolean>) {
         activeTab.value = 'search'
     }
 
-    function goToSaved() {
-        activeTab.value = 'saved'
+    function goToWatchers() {
+        activeTab.value = 'watchers'
     }
 
     return {
         activeTab,
         goToSearch,
-        goToSaved
+        goToWatchers
     }
 }

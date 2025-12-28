@@ -8,7 +8,7 @@ import AppFooter from './components/AppFooter.vue'
 
 // Views
 import SearchView from './views/SearchView.vue'
-import SavedView from './views/SavedView.vue'
+import WatchersView from './views/WatchersView.vue'
 
 // Initialize composables
 const { isOnline } = useNetworkStatus()
@@ -27,9 +27,9 @@ useDatabase()
     <TabBar v-model:active-tab="activeTab" />
 
     <!-- Main Content -->
-    <div class="flex-1 px-4">
+    <div class="flex-1 px-4 overflow-y-auto pb-4">
       <SearchView v-if="activeTab === 'search'" />
-      <SavedView v-else />
+      <WatchersView v-else-if="activeTab === 'watchers'" />
     </div>
 
     <!-- Footer -->

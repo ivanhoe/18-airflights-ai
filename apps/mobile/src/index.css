@@ -146,6 +146,186 @@
   .touch-target-comfortable {
     @apply min-w-[48px] min-h-[48px] flex items-center justify-center;
   }
+
+  /* ===== Input Card System ===== */
+  /* Grouped inputs container */
+  .input-card {
+    @apply bg-white/[0.08] border border-white/15 rounded-2xl backdrop-blur-xl overflow-hidden;
+  }
+
+  .input-row {
+    @apply flex items-center gap-2.5 py-3.5 px-4 min-h-[52px];
+  }
+
+  .input-row:active {
+    @apply bg-white/[0.12];
+  }
+
+  .input-divider {
+    @apply h-px bg-white/10 mx-4;
+  }
+
+  .input-icon {
+    @apply w-5 h-5 text-white/50 shrink-0;
+  }
+
+  .input-select,
+  .input-date {
+    @apply flex-1 bg-transparent border-none text-white text-base outline-none cursor-pointer appearance-none;
+    @apply whitespace-nowrap overflow-hidden text-ellipsis;
+  }
+
+  .caret-icon {
+    @apply w-4 h-4 text-white/40 shrink-0;
+  }
+
+  /* ===== Chip System ===== */
+  .chip {
+    @apply flex items-center gap-1.5 py-2.5 px-3.5 min-h-[44px];
+    @apply bg-white/[0.08] border border-white/15 rounded-xl backdrop-blur-xl;
+  }
+
+  .chip:active {
+    @apply bg-white/[0.12];
+  }
+
+  .chip-icon {
+    @apply w-4 h-4 text-white/60 shrink-0;
+  }
+
+  .chip-select {
+    @apply bg-transparent border-none text-white text-[15px] outline-none cursor-pointer appearance-none;
+  }
+
+  /* ===== Select Wrapper ===== */
+  .select-wrapper {
+    @apply flex items-center gap-3 py-3.5 px-4 min-h-[52px];
+    @apply bg-white/[0.06] rounded-2xl border border-white/[0.08] transition-all duration-200;
+  }
+
+  .select-wrapper:focus-within {
+    @apply border-violet-500/50 bg-white/[0.08];
+  }
+
+  .select-wrapper:active {
+    @apply bg-white/10;
+  }
+
+  .select-icon {
+    @apply w-5 h-5 text-white/50 shrink-0;
+  }
+
+  .select-input {
+    @apply flex-1 bg-transparent border-none text-white text-base outline-none cursor-pointer appearance-none;
+  }
+
+  .select-input option {
+    @apply bg-[#1a1a2e] text-white;
+  }
+
+  /* ===== Modal System ===== */
+  .modal-backdrop {
+    @apply fixed inset-0 bg-black/60 backdrop-blur-sm;
+  }
+
+  .modal-sheet {
+    @apply relative w-full max-w-lg bg-[#1a1a2e] rounded-t-3xl p-6 pb-10;
+    animation: slide-up 0.3s ease-out;
+  }
+
+  .modal-handle {
+    @apply absolute top-3 left-1/2 -translate-x-1/2 w-10 h-1 rounded-full bg-white/20;
+  }
+
+  @keyframes slide-up {
+    from {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+
+  /* ===== Tab Bar ===== */
+  .tab-bar {
+    @apply flex items-center justify-around py-2 px-4;
+    @apply bg-black/40 backdrop-blur-xl border-t border-white/10;
+    padding-bottom: calc(env(safe-area-inset-bottom, 8px) + 8px);
+  }
+
+  .tab-item {
+    @apply flex flex-col items-center gap-1 py-2 px-4 min-w-[64px] min-h-[44px];
+    @apply rounded-xl transition-all duration-200;
+  }
+
+  .tab-item:active {
+    @apply scale-95;
+  }
+
+  .tab-item--active {
+    @apply bg-white/10;
+  }
+
+  /* ===== Price Input ===== */
+  .price-input-wrapper {
+    @apply flex items-center gap-2 py-3.5 px-4 min-h-[52px];
+    @apply bg-white/[0.06] rounded-2xl border border-white/[0.08] transition-all duration-200;
+  }
+
+  .price-input-wrapper:focus-within {
+    @apply border-violet-500/50 bg-white/[0.08];
+  }
+
+  .price-input {
+    @apply flex-1 bg-transparent border-none text-white text-lg font-semibold text-center outline-none appearance-none;
+    -moz-appearance: textfield;
+  }
+
+  .price-input::-webkit-outer-spin-button,
+  .price-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  .currency-label {
+    @apply text-white/50 text-base;
+  }
+
+  /* ===== Date Input Styling ===== */
+  input[type="date"]::-webkit-date-and-time-value {
+    text-align: left;
+  }
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    opacity: 0.6;
+    cursor: pointer;
+  }
+
+  /* ===== Offline Banner ===== */
+  .offline-banner {
+    @apply flex items-center justify-center gap-2 py-3 px-4;
+    @apply text-amber-300 text-[15px] text-center;
+    background: rgba(245, 158, 11, 0.2);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(245, 158, 11, 0.3);
+  }
+
+  /* ===== Slide Animation (for banners) ===== */
+  .slide-enter-active,
+  .slide-leave-active {
+    transition: all 0.3s ease;
+  }
+
+  .slide-enter-from,
+  .slide-leave-to {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
 }
 
 /* iOS safe areas - 8px grid system */

@@ -23,11 +23,7 @@ const {
   offers,
   loading,
   error,
-  savedOfferIds,
-  lastSavedId,
-  search,
-  saveFlight,
-  toggleFavoriteStatus
+  search
 } = useFlightSearch()
 </script>
 
@@ -59,19 +55,7 @@ const {
         :key="index"
         :offer="offer"
         :index="index + 1"
-        :saved-id="savedOfferIds.get(index) ?? null"
-        :is-favorite="false"
-        @toggle-favorite="toggleFavoriteStatus"
-        @save-flight="(o) => saveFlight(o, index)"
       />
-    </div>
-
-    <!-- Save confirmation -->
-    <div
-      v-if="lastSavedId"
-      class="mt-4 p-3 text-center text-[15px] text-green-400 bg-green-500/10 backdrop-blur-md border border-green-500/30 rounded-xl animate-fade-in"
-    >
-      ✓ {{ $t('search.saved_confirmation') }}
     </div>
   </div>
 </template>

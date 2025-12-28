@@ -3,7 +3,7 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-export type Tab = 'search' | 'saved'
+export type Tab = 'search' | 'watchers'
 
 defineProps<{
   activeTab: Tab
@@ -15,7 +15,7 @@ const emit = defineEmits<{
 
 const tabs: { id: Tab; icon: string; labelKey: string }[] = [
   { id: 'search', icon: '🔍', labelKey: 'tabs.search' },
-  { id: 'saved', icon: '💾', labelKey: 'tabs.saved' }
+  { id: 'watchers', icon: '🔔', labelKey: 'tabs.watchers' }
 ]
 </script>
 
