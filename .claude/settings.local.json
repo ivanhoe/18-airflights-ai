@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(grep:*)",
+      "Bash(git push)",
+      "Bash(find:*)",
+      "Bash(git -C /Users/ivanalvarezfrias/projects/18-airflights-ai log --oneline -20)",
+      "Bash(npm run tauri:*)",
+      "Bash(xcrun simctl:*)"
+    ]
+  }
+}

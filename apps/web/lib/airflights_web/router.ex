@@ -24,8 +24,20 @@ defmodule AirflightsWeb.Router do
   scope "/api", AirflightsWeb.Api do
     pipe_through(:api)
 
+    # Flights
     post("/flights/cheapest", FlightController, :cheapest)
     post("/flights/search", FlightController, :search)
     get("/flights/defaults", FlightController, :defaults)
+
+    # Price Watchers
+    resources("/watchers", WatcherController, only: [:create, :index, :delete])
+    post("/watchers/:id/pause", WatcherController, :pause)
+    post("/watchers/:id/resume", WatcherController, :resume)
+    get("/watchers/:id/history", WatcherController, :history)
+
+    # Alerts
+    get("/alerts", WatcherController, :alerts)
+    post("/alerts/:id/read", WatcherController, :mark_read)
+    post("/alerts/mark-all-read", WatcherController, :mark_all_read)
   end
 end
