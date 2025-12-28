@@ -78,10 +78,10 @@ export function formatDuration(duration: string | number | null): string {
 }
 
 /**
- * Format relative time ago (e.g., "hace 5m", "hace 2h")
+ * Format relative time ago (e.g., "5m ago", "2h ago")
  */
 export function formatTimeAgo(dateString: string | null): string {
-    if (!dateString) return 'Nunca'
+    if (!dateString) return 'Never'
 
     const date = new Date(dateString)
     const now = new Date()
@@ -90,9 +90,9 @@ export function formatTimeAgo(dateString: string | null): string {
     const diffHours = Math.floor(diffMins / 60)
     const diffDays = Math.floor(diffHours / 24)
 
-    if (diffMins < 60) return `hace ${diffMins}m`
-    if (diffHours < 24) return `hace ${diffHours}h`
-    return `hace ${diffDays}d`
+    if (diffMins < 60) return `${diffMins}m ago`
+    if (diffHours < 24) return `${diffHours}h ago`
+    return `${diffDays}d ago`
 }
 
 /**
