@@ -22,13 +22,21 @@ defineProps<{
       v-if="isPriceBelowTarget"
       class="px-2 py-1 rounded-full bg-green-500/20 text-green-400 text-xs font-medium"
     >
+<<<<<<< HEAD
       ✅ Bajo meta
+=======
+      ✅ Below target
+>>>>>>> 6df403d (feat(mobile): add watcher sub-components for single responsibility)
     </div>
     <div 
       v-else-if="!isActive"
       class="px-2 py-1 rounded-full bg-yellow-500/20 text-yellow-400 text-xs font-medium"
     >
+<<<<<<< HEAD
       ⏸️ Pausado
+=======
+      ⏸️ Paused
+>>>>>>> 6df403d (feat(mobile): add watcher sub-components for single responsibility)
     </div>
   </div>
 </template>
