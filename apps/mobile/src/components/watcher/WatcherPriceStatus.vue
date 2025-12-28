@@ -22,7 +22,7 @@ defineProps<{
   >
     <div class="flex items-center justify-between">
       <div>
-        <div class="text-xs text-white/50 mb-1">📊 Último precio</div>
+        <div class="text-xs text-white/50 mb-1">📊 Last price</div>
         <PriceDisplay 
           :price="lastPrice" 
           :currency="currency" 
@@ -54,6 +54,6 @@ defineProps<{
     v-else 
     class="p-3 rounded-xl bg-white/5 mb-4 text-center text-white/50 text-sm"
   >
-    ⏳ Esperando primer chequeo...
+    ⏳ Waiting for first check...
   </div>
 </template>
