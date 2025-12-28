@@ -44,7 +44,7 @@ function handleSubmit() {
   <div class="card">
     <h3 class="text-lg font-semibold text-white mb-4 flex items-center gap-2">
       <span class="text-xl">➕</span>
-      {{ $t('watchers.new_watcher') || 'Nuevo Price Watcher' }}
+      {{ $t('watchers.new_watcher') || 'New Price Watcher' }}
     </h3>
 
     <form @submit.prevent="handleSubmit" class="space-y-4">
@@ -52,13 +52,13 @@ function handleSubmit() {
       <div class="grid grid-cols-2 gap-3">
         <div>
           <label class="block text-sm text-white/60 mb-1.5">
-            {{ $t('search.origin_label') || 'Origen' }}
+            {{ $t('search.origin_label') || 'Origin' }}
           </label>
           <AirportSelect v-model="origin" icon="departure" />
         </div>
         <div>
           <label class="block text-sm text-white/60 mb-1.5">
-            {{ $t('search.destination_label') || 'Destino' }}
+            {{ $t('search.destination_label') || 'Destination' }}
           </label>
           <AirportSelect v-model="destination" icon="arrival" />
         </div>
@@ -67,7 +67,7 @@ function handleSubmit() {
       <!-- Travel Date -->
       <div>
         <label class="block text-sm text-white/60 mb-1.5">
-          {{ $t('search.date_label') || 'Fecha de viaje' }}
+          {{ $t('search.date_label') || 'Travel date' }}
         </label>
         <DateInput v-model="travelDate" />
       </div>
@@ -75,7 +75,7 @@ function handleSubmit() {
       <!-- Target Price -->
       <div>
         <label class="block text-sm text-white/60 mb-1.5">
-          🎯 {{ $t('watchers.target_price') || 'Precio objetivo' }}
+          🎯 {{ $t('watchers.target_price') || 'Target price' }}
         </label>
         <div class="price-input-wrapper">
           <span class="currency-label">$</span>
@@ -104,7 +104,7 @@ function handleSubmit() {
       >
         <span v-if="loading" class="animate-spin">⏳</span>
         <span v-else>🔔</span>
-        {{ $t('watchers.start_watching') || 'Activar Alertas de Precio' }}
+        {{ $t('watchers.start_watching') || 'Start Price Alerts' }}
       </button>
     </form>
   </div>
