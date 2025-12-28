@@ -37,7 +37,7 @@ const emit = defineEmits<{
         <!-- Header -->
         <div class="flex items-center justify-between mb-6 mt-2">
           <h3 class="text-lg font-semibold text-white flex items-center gap-2">
-            📊 Historial: {{ watcher.origin }} → {{ watcher.destination }}
+            📊 History: {{ watcher.origin }} → {{ watcher.destination }}
           </h3>
           <button
             @click="emit('close')"
@@ -50,12 +50,12 @@ const emit = defineEmits<{
         <!-- Target Price Line -->
         <div class="flex items-center gap-2 text-sm text-white/60 mb-4 px-2">
           <span>🎯</span>
-          <span>Meta: <PriceDisplay :price="watcher.targetPrice" :currency="watcher.currency" size="sm" /></span>
+          <span>Target: <PriceDisplay :price="watcher.targetPrice" :currency="watcher.currency" size="sm" /></span>
         </div>
 
         <!-- Loading -->
         <div v-if="loading" class="text-center py-8 text-white/40">
-          ⏳ Cargando historial...
+          ⏳ Loading history...
         </div>
 
         <!-- Price History List -->
@@ -82,7 +82,7 @@ const emit = defineEmits<{
 
           <!-- Empty history -->
           <div v-if="history.length === 0" class="text-center py-8 text-white/40">
-            Sin historial de precios aún
+            No price history yet
           </div>
         </div>
       </div>
