@@ -11,8 +11,6 @@
         "button": "Find Cheapest Flight",
         "loading": "Searching...",
         "error_api": "API Error",
-        "saved_flights": "Favorites",
-        "saved_confirmation": "Saved for offline access",
         "round_trip": "Round trip",
         "one_way": "One way",
         "economy": "Economy",
@@ -22,9 +20,9 @@
     },
     "tabs": {
         "search": "Search",
-        "saved": "Saved Flights"
+        "watchers": "Alerts"
     },
-    "offline_banner": "📴 You're offline — viewing saved flights",
+    "offline_banner": "📴 You're offline",
     "footer": "Powered by SerpApi (Google Flights) • Built with Tauri + Vue",
     "results": {
         "title": "Cheapest Flight",
@@ -35,7 +33,6 @@
         "duration": "Duration",
         "direct": "Direct",
         "stop_count": "{count} stop | {count} stops",
-        "save": "Save",
         "segments": "Flight Segments",
         "layover": "Layover at {airport}",
         "flight_number": "Flight {number}",
@@ -45,18 +42,20 @@
         "legroom": "Legroom: {value}",
         "departure": "Departure"
     },
-    "saved": {
-        "filters": {
-            "all": "All ({count})",
-            "favorites": "Favorites"
-        },
-        "loading": "Loading saved flights...",
-        "error": "Failed to load saved flights",
-        "empty": {
-            "saved": "No saved flights yet",
-            "favorites": "No favorite flights yet",
-            "prompt": "Search for flights to save them here"
-        },
-        "saved_at": "Saved {date}"
+    "watchers": {
+        "subtitle": "Get alerts when prices drop",
+        "new_watcher": "New Price Watcher",
+        "target_price": "Target price",
+        "start_watching": "Enable Price Alerts",
+        "active_monitors": "Active Monitors",
+        "empty_state": "No alerts configured",
+        "empty_hint": "Create an alert above to receive notifications",
+        "below_target": "Below target",
+        "paused": "Paused",
+        "last_price": "Last price",
+        "history": "History",
+        "pause": "Pause",
+        "resume": "Resume",
+        "delete": "Delete"
     }
 }

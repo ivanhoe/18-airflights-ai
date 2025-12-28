@@ -26,12 +26,11 @@ export async function ensureNotificationPermission(): Promise<boolean> {
 }
 
 /**
- * Send a notification when a flight is saved.
+ * Send a notification for a price alert.
  */
-export async function notifyFlightSaved(
-    origin: string,
-    destination: string,
-    price: number,
+export async function notifyPriceAlert(
+    route: string,
+    newPrice: number,
     currency: string
 ): Promise<void> {
     const hasPermission = await ensureNotificationPermission()
@@ -44,12 +43,12 @@ export async function notifyFlightSaved(
     const formattedPrice = new Intl.NumberFormat('es-MX', {
         style: 'currency',
         currency: currency
-    }).format(price)
+    }).format(newPrice)
 
     await sendNotification({
-        title: '✈️ Vuelo guardado',
-        body: `${origin} → ${destination} - ${formattedPrice}`
+        title: '🔔 Alerta de Precio',
+        body: `¡${route} bajó a ${formattedPrice}!`
     })
 
-    console.log('[Notification] Flight saved notification sent')
+    console.log('[Notification] Price alert notification sent')
 }

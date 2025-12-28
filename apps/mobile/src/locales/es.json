@@ -11,8 +11,6 @@
         "button": "Buscar Vuelo",
         "loading": "Buscando...",
         "error_api": "Error de API",
-        "saved_flights": "Favoritos",
-        "saved_confirmation": "Guardado para acceso offline",
         "round_trip": "Ida y vuelta",
         "one_way": "Solo ida",
         "economy": "Turista",
@@ -22,9 +20,9 @@
     },
     "tabs": {
         "search": "Buscar",
-        "saved": "Guardados"
+        "watchers": "Alertas"
     },
-    "offline_banner": "📴 Estás offline — viendo vuelos guardados",
+    "offline_banner": "📴 Estás offline",
     "footer": "Desarrollado por SerpApi (Google Flights) • Creado con Tauri + Vue",
     "results": {
         "title": "Vuelo Más Barato",
@@ -35,7 +33,6 @@
         "duration": "Duración",
         "direct": "Directo",
         "stop_count": "{count} escala | {count} escalas",
-        "save": "Guardar",
         "segments": "Tramos del Vuelo",
         "layover": "Escala en {airport}",
         "flight_number": "Vuelo {number}",
@@ -45,18 +42,20 @@
         "legroom": "Espacio: {value}",
         "departure": "Salida"
     },
-    "saved": {
-        "filters": {
-            "all": "Todos ({count})",
-            "favorites": "Favoritos"
-        },
-        "loading": "Cargando vuelos guardados...",
-        "error": "Error al cargar vuelos",
-        "empty": {
-            "saved": "No hay vuelos guardados",
-            "favorites": "No hay favoritos aún",
-            "prompt": "Busca vuelos para guardarlos aquí"
-        },
-        "saved_at": "Guardado el {date}"
+    "watchers": {
+        "subtitle": "Recibe alertas cuando bajen los precios",
+        "new_watcher": "Nuevo Price Watcher",
+        "target_price": "Precio objetivo",
+        "start_watching": "Activar Alertas de Precio",
+        "active_monitors": "Monitores Activos",
+        "empty_state": "No tienes alertas configuradas",
+        "empty_hint": "Crea una alerta arriba para recibir notificaciones",
+        "below_target": "Bajo meta",
+        "paused": "Pausado",
+        "last_price": "Último precio",
+        "history": "Historial",
+        "pause": "Pausar",
+        "resume": "Reanudar",
+        "delete": "Eliminar"
     }
 }
