@@ -64,10 +64,10 @@ function formatPrice(price: number, currency: string): string {
       <button
         @click="showFavoritesOnly = false; loadFlights()"
         :class="[
-          'px-4 py-2 rounded-xl text-sm font-medium transition-all',
-          !showFavoritesOnly 
-            ? 'bg-violet-500 text-white' 
-            : 'bg-white/10 text-violet-300 hover:bg-white/20'
+          'min-h-[48px] px-5 py-3 rounded-xl text-[15px] font-semibold transition-all flex-1 sm:flex-none',
+          !showFavoritesOnly
+            ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+            : 'bg-white/[0.06] backdrop-blur-md text-white/70 hover:bg-white/[0.08] active:bg-white/[0.1] border border-white/[0.1]'
         ]"
       >
         {{ $t('saved.filters.all', { count: savedFlights.length }) }}
@@ -75,10 +75,10 @@ function formatPrice(price: number, currency: string): string {
       <button
         @click="showFavoritesOnly = true; loadFlights()"
         :class="[
-          'px-4 py-2 rounded-xl text-sm font-medium transition-all',
-          showFavoritesOnly 
-            ? 'bg-violet-500 text-white' 
-            : 'bg-white/10 text-violet-300 hover:bg-white/20'
+          'min-h-[48px] px-5 py-3 rounded-xl text-[15px] font-semibold transition-all flex-1 sm:flex-none',
+          showFavoritesOnly
+            ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/30'
+            : 'bg-white/[0.06] backdrop-blur-md text-white/70 hover:bg-white/[0.08] active:bg-white/[0.1] border border-white/[0.1]'
         ]"
       >
         ⭐ {{ $t('saved.filters.favorites') }}
@@ -86,22 +86,22 @@ function formatPrice(price: number, currency: string): string {
     </div>
 
     <!-- Loading -->
-    <div v-if="loading" class="text-center py-8 text-violet-300">
+    <div v-if="loading" class="text-center py-12 text-white/60 text-[15px]">
       {{ $t('saved.loading') }}
     </div>
 
     <!-- Error -->
-    <div v-else-if="error" class="bg-red-500/20 border border-red-500/50 rounded-xl p-4 text-red-300">
+    <div v-else-if="error" class="bg-red-500/20 backdrop-blur-md border border-red-500/50 rounded-2xl p-4 text-red-300 text-[15px]">
       {{ error }}
     </div>
 
     <!-- Empty State -->
-    <div v-else-if="displayedFlights.length === 0" class="text-center py-8">
-      <div class="text-4xl mb-2">✈️</div>
-      <div class="text-violet-300">
+    <div v-else-if="displayedFlights.length === 0" class="text-center py-12">
+      <div class="text-5xl mb-3">✈️</div>
+      <div class="text-white text-[17px] font-medium">
         {{ showFavoritesOnly ? $t('saved.empty.favorites') : $t('saved.empty.saved') }}
       </div>
-      <div class="text-sm text-violet-400 mt-1">
+      <div class="text-[15px] text-white/50 mt-2">
         {{ $t('saved.empty.prompt') }}
       </div>
     </div>
@@ -111,35 +111,35 @@ function formatPrice(price: number, currency: string): string {
       <div
         v-for="flight in displayedFlights"
         :key="flight.id"
-        class="bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20"
+        class="bg-white/[0.06] backdrop-blur-xl rounded-2xl p-4 border border-white/[0.1]"
       >
-        <div class="flex justify-between items-start mb-2">
+        <div class="flex justify-between items-start mb-3 gap-3">
           <!-- Route -->
-          <div>
+          <div class="flex-1 min-w-0">
             <div class="text-lg font-bold">
               {{ flight.origin }} → {{ flight.destination }}
             </div>
-            <div class="text-sm text-violet-300">
+            <div class="text-[13px] text-white/50 mt-1">
               {{ formatDate(flight.travel_date) }}
             </div>
           </div>
-          
+
           <!-- Price & Actions -->
-          <div class="text-right">
-            <div class="text-xl font-bold text-green-400">
+          <div class="text-right flex-shrink-0">
+            <div class="text-xl font-bold text-emerald-400">
               {{ formatPrice(flight.price, flight.currency) }}
             </div>
-            <div class="flex gap-2 mt-1">
+            <div class="flex gap-1 mt-2 justify-end">
               <button
                 @click="handleToggleFavorite(flight.id)"
-                class="text-xl hover:scale-110 transition-transform"
+                class="text-2xl hover:scale-110 active:scale-95 transition-transform min-w-[48px] min-h-[48px] flex items-center justify-center"
                 :title="flight.is_favorite ? 'Remove from favorites' : 'Add to favorites'"
               >
                 {{ flight.is_favorite ? '⭐' : '☆' }}
               </button>
               <button
                 @click="handleDelete(flight.id)"
-                class="text-lg text-red-400 hover:text-red-300 hover:scale-110 transition-transform"
+                class="text-xl text-red-400 hover:text-red-300 hover:scale-110 active:scale-95 transition-transform min-w-[48px] min-h-[48px] flex items-center justify-center"
                 title="Delete"
               >
                 🗑️
@@ -149,14 +149,14 @@ function formatPrice(price: number, currency: string): string {
         </div>
 
         <!-- Details -->
-        <div class="flex gap-4 text-sm text-violet-300">
+        <div class="flex flex-wrap gap-4 text-[13px] text-white/50">
           <span v-if="flight.airline">{{ flight.airline }}</span>
           <span v-if="flight.duration">{{ flight.duration.replace('PT', '').replace('H', 'h ').replace('M', 'm') }}</span>
           <span>{{ flight.stops === 0 ? $t('results.direct') : $t('results.stop_count', { count: flight.stops }, flight.stops) }}</span>
         </div>
 
         <!-- Searched timestamp -->
-        <div class="text-xs text-violet-400 mt-2">
+        <div class="text-[13px] text-white/40 mt-2">
           {{ $t('saved.saved_at', { date: new Date(flight.searched_at).toLocaleDateString() }) }}
         </div>
       </div>

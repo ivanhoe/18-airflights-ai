@@ -1,25 +1,60 @@
 @import "tailwindcss";
 
-/* Theme customization for Tailwind v4 */
+/* Theme customization for Tailwind v4 - iOS Design System */
 @theme {
+  /* iOS Color Palette */
   --color-primary: #0f172a;
   --color-secondary: rgba(255, 255, 255, 0.1);
   --color-accent-purple: #9333ea;
   --color-accent-pink: #ec4899;
+  --color-glass: rgba(255, 255, 255, 0.1);
+  --color-glass-border: rgba(255, 255, 255, 0.2);
 
-  --font-family-sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* iOS Typography - San Francisco inspired */
+  --font-family-sans: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Segoe UI', Roboto, sans-serif;
 
-  --animate-fade-in: fade-in 0.3s ease;
+  /* 8-point grid spacing system */
+  --spacing-1: 8px;
+  --spacing-2: 16px;
+  --spacing-3: 24px;
+  --spacing-4: 32px;
+  --spacing-5: 40px;
+  --spacing-6: 48px;
+
+  /* Touch target sizes */
+  --touch-target-min: 44px;
+  --touch-target-comfortable: 48px;
+
+  /* Border radius - iOS style */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
+
+  /* Animations - fluid and responsive */
+  --animate-fade-in: fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  --animate-scale: scale 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
   @keyframes fade-in {
     0% {
       opacity: 0;
-      transform: translateY(10px);
+      transform: translateY(12px);
     }
 
     100% {
       opacity: 1;
       transform: translateY(0);
+    }
+  }
+
+  @keyframes scale {
+    0% {
+      transform: scale(0.95);
+    }
+
+    100% {
+      transform: scale(1);
     }
   }
 }
@@ -34,12 +69,12 @@
 
   html {
     height: 100%;
-    background: linear-gradient(135deg, #0f172a, #581c87, #0f172a);
+    background: linear-gradient(135deg, #1e1b4b, #312e81, #1e1b4b);
   }
 
   body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background: linear-gradient(135deg, #0f172a, #581c87, #0f172a);
+    background: linear-gradient(135deg, #1e1b4b, #312e81, #1e1b4b);
     background-attachment: fixed;
     min-height: 100%;
     min-height: 100dvh;
@@ -54,39 +89,100 @@
   }
 }
 
-/* Custom components */
+/* Custom components - iOS Design System */
 @layer components {
+
+  /* Primary Button - 44px minimum touch target with glow */
   .btn-primary {
-    @apply p-4 bg-gradient-to-br from-purple-600 to-pink-500 border-none rounded-xl text-white text-lg font-bold cursor-pointer transition-all duration-200;
+    @apply min-h-[48px] px-6 py-3.5 bg-gradient-to-br from-purple-600 to-pink-500 border-none rounded-2xl text-white text-[17px] font-semibold cursor-pointer transition-all duration-200;
+    letter-spacing: -0.01em;
+    box-shadow: 0 4px 20px rgba(236, 72, 153, 0.4),
+      0 2px 8px rgba(147, 51, 234, 0.3);
   }
 
   .btn-primary:hover:not(:disabled) {
-    @apply scale-[1.02];
+    @apply scale-[1.02] brightness-110;
+    box-shadow: 0 6px 28px rgba(236, 72, 153, 0.5),
+      0 4px 12px rgba(147, 51, 234, 0.4);
+  }
+
+  .btn-primary:active:not(:disabled) {
+    @apply scale-[0.98] brightness-95;
+    box-shadow: 0 2px 12px rgba(236, 72, 153, 0.3),
+      0 1px 4px rgba(147, 51, 234, 0.2);
   }
 
   .btn-primary:disabled {
-    @apply opacity-50 cursor-not-allowed;
+    @apply opacity-40 cursor-not-allowed;
+    box-shadow: none;
   }
 
+  /* Glass Card - iOS Liquid Glass inspired */
   .card {
-    @apply bg-white/10 backdrop-blur-md rounded-3xl p-6 border border-white/20;
+    @apply bg-white/[0.08] backdrop-blur-2xl rounded-3xl p-6 border border-white/[0.15];
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4),
+      0 2px 8px rgba(0, 0, 0, 0.2),
+      0 1px 0 rgba(255, 255, 255, 0.1) inset,
+      0 -1px 0 rgba(0, 0, 0, 0.1) inset;
   }
 
+  /* Input Field - 44px minimum height */
   .input-field {
-    @apply w-full py-3.5 px-4 bg-white/15 border border-white/40 rounded-xl text-white text-base appearance-none;
+    @apply w-full min-h-[44px] py-3 px-4 bg-white/10 border border-white/30 rounded-xl text-white text-[17px] appearance-none;
+    backdrop-filter: blur(10px);
+    letter-spacing: -0.01em;
   }
 
   .input-field:focus {
-    @apply outline-none border-violet-400 bg-white/20;
+    @apply outline-none border-violet-400 bg-white/15;
+    box-shadow: 0 0 0 3px rgba(147, 51, 234, 0.1);
+  }
+
+  /* Touch Target Helper */
+  .touch-target {
+    @apply min-w-[44px] min-h-[44px] flex items-center justify-center;
+  }
+
+  .touch-target-comfortable {
+    @apply min-w-[48px] min-h-[48px] flex items-center justify-center;
   }
 }
 
-/* iOS safe areas */
+/* iOS safe areas - 8px grid system */
 @layer utilities {
   .safe-area-inset {
-    padding-top: calc(env(safe-area-inset-top, 20px) + 1rem);
-    padding-bottom: calc(env(safe-area-inset-bottom, 20px) + 1rem);
-    padding-left: calc(env(safe-area-inset-left, 0px) + 1rem);
-    padding-right: calc(env(safe-area-inset-right, 0px) + 1rem);
+    padding-top: calc(env(safe-area-inset-top, 20px) + 16px);
+    padding-bottom: calc(env(safe-area-inset-bottom, 20px) + 16px);
+    padding-left: calc(env(safe-area-inset-left, 0px) + 16px);
+    padding-right: calc(env(safe-area-inset-right, 0px) + 16px);
+  }
+
+  /* Landscape orientation support */
+  @media (orientation: landscape) and (max-height: 500px) {
+    .safe-area-inset {
+      padding-top: calc(env(safe-area-inset-top, 10px) + 8px);
+      padding-bottom: calc(env(safe-area-inset-bottom, 10px) + 8px);
+    }
+
+    .card {
+      @apply p-4;
+    }
+  }
+
+  /* iOS-style spacing utilities */
+  .gap-ios-1 {
+    gap: 8px;
+  }
+
+  .gap-ios-2 {
+    gap: 16px;
+  }
+
+  .gap-ios-3 {
+    gap: 24px;
+  }
+
+  .gap-ios-4 {
+    gap: 32px;
   }
 }
